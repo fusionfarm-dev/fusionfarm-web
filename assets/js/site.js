@@ -38,6 +38,21 @@
     });
   }
 
+  // Motion: draw the network map when it scrolls into view; honour reduced motion
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var orbit = document.querySelector(".orbit");
+  if (reduce && orbit && orbit.pauseAnimations) orbit.pauseAnimations();
+  var net = document.querySelector(".net");
+  if (net && !reduce && "IntersectionObserver" in window) {
+    net.classList.add("arm");
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { net.classList.add("in"); io.disconnect(); }
+      });
+    }, { threshold: 0.3 });
+    io.observe(net);
+  }
+
   var yr = document.getElementById("yr");
   if (yr) yr.textContent = new Date().getFullYear();
 })();
