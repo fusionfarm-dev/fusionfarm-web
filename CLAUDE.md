@@ -10,7 +10,7 @@ Static site, no build step. Open `index.html` directly or serve the folder
 - `404.html` — not-found page (uses absolute `/assets` paths)
 - `assets/css/site.css` — all styles
 - `assets/js/site.js` — email assembly + mobile nav (progressive enhancement)
-- `assets/img/logo.jpg` — the atomic mark (supplied by Pedro; do not redraw or replace)
+- `assets/img/logo.png` — the atomic mark, white on transparent; `logo-square.png` is the black-square version for favicon/social (supplied by Pedro; do not redraw or replace)
 
 ## Design system (locked — do not change without Pedro's say-so)
 - Pure black background `#000000`

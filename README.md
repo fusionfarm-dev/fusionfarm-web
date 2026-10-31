@@ -8,7 +8,7 @@ Plain HTML/CSS/JS, no build step.
 python3 -m http.server 8080   # then open http://localhost:8080
 ```
 
-Put the atomic mark at `assets/img/logo.jpg` before deploying.
+The atomic mark lives in `assets/img/` (`logo.png` transparent, `logo-square.png` for favicon/social).
 
 Deploy by uploading the repo contents to the web root (DreamHost, Netlify,
 Cloudflare Pages, GitHub Pages all work unchanged).
