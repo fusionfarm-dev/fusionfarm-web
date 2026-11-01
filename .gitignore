@@ -1,0 +1,7 @@
+.env
+.env.*
+*.local.php
+fusionfarm-contact-config.php
+node_modules/
+.cache/
+__pycache__/

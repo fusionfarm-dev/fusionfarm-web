@@ -1,100 +1,26 @@
-"""Generate the inline SVG graphics for index.html (same designs as the LinkedIn kit).
+from pathlib import Path
+import json, math
+R=Path(__file__).resolve().parents[1]
+dots=json.loads((R/'assets/img/world-dots.json').read_text())
+cities={'SEA':(-122.33,47.61),'MSP':(-93.27,44.98),'CHI':(-87.63,41.88),'NYC':(-74.01,40.71),'MEX':(-99.13,19.43),'GRU':(-46.63,-23.55),'LON':(-.12,51.51),'LIS':(-9.14,38.72),'IST':(28.98,41.01),'DXB':(55.27,25.20),'DEL':(77.21,28.61),'SIN':(103.82,1.35),'TYO':(139.69,35.68),'JNB':(28.05,-26.20),'SYD':(151.21,-33.87)}
+links=[('CHI','SEA'),('CHI','MSP'),('CHI','NYC'),('CHI','MEX'),('CHI','GRU'),('CHI','LON'),('CHI','LIS'),('LON','IST'),('IST','DXB'),('DXB','DEL'),('DEL','SIN'),('SIN','TYO'),('SIN','SYD'),('LON','JNB'),('CHI','TYO')]
+def point(lon,lat): return ((lon+180)*3,(72-lat)*3+42)
+s=['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 450" role="img" aria-label="World network with Chicago headquarters and Minneapolis and Seattle offices"><defs><radialGradient id="glow"><stop stop-color="#5ED6AA" stop-opacity=".5"/><stop offset="1" stop-color="#5ED6AA" stop-opacity="0"/></radialGradient></defs><g fill="#637b8e" opacity=".65">']
+for lon,lat in dots:
+ x,y=point(lon,lat);s.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="1.4"/>')
+s.append('</g><g fill="none" stroke-width="1.1">')
+for a,b in links:
+ x,y=point(*cities[a]);X,Y=point(*cities[b]);hub=a=='CHI'; lift=min(155,math.hypot(X-x,Y-y)*.3+15)
+ s.append(f'<path stroke="{"#5ED6AA" if hub else "#7FB8FF"}" opacity=".6" d="M{x:.1f},{y:.1f} Q{(x+X)/2:.1f},{min(y,Y)-lift:.1f} {X:.1f},{Y:.1f}"/>')
+s.append('</g>')
+for name,(lon,lat) in cities.items():
+ x,y=point(lon,lat); hub=name in ['SEA','MSP','CHI'];color='#5ED6AA' if hub else '#EEF1F4'
+ if hub:s.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{35 if name=="CHI" else 19}" fill="url(#glow)"/>')
+ dx,dy={'SEA':(-25,-13),'MSP':(-36,-15),'CHI':(8,20),'NYC':(9,-2)}.get(name,(8,-9))
+ s.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{4.4 if name=="CHI" else 2.9}" fill="{color}"/><text x="{x+dx:.1f}" y="{y+dy:.1f}" fill="{color}" font-family="monospace" font-size="10">{name}</text>')
+s.append('</svg>');world=''.join(s);(R/'assets/img/world.svg').write_text(world)
+orbit='<svg class="orbit" viewBox="0 0 600 460" role="img" aria-label="Systems, Data and Field orbit operating experience at the core"><circle cx="300" cy="215" r="160" fill="none" stroke="#223040" stroke-dasharray="2 8"/>'
+for a,c in [(-28,'#5ED6AA'),(28,'#7FB8FF'),(90,'#EEF1F4')]:orbit+=f'<ellipse cx="300" cy="215" rx="214" ry="73" transform="rotate({a} 300 215)" fill="none" stroke="{c}" stroke-opacity=".65"/>'
+orbit+='<circle cx="300" cy="215" r="57" fill="#121821" stroke="#223040"/><image href="/assets/img/logo.png" x="277" y="186" width="46" height="58"/><g font-family="monospace" font-size="11" letter-spacing="2"><text x="430" y="100" fill="#5ED6AA">SYSTEMS</text><text x="86" y="100" fill="#7FB8FF">DATA</text><text x="316" y="433" fill="#EEF1F4">FIELD</text><text x="300" y="311" text-anchor="middle" fill="#C5CDD6">EXPERIENCE AT THE CORE</text></g><circle cx="483" cy="106" r="4" fill="#5ED6AA"/><circle cx="117" cy="106" r="4" fill="#7FB8FF"/><circle cx="300" cy="429" r="4" fill="#EEF1F4"/></svg>'
 
-  python3 tools/gen_graphics.py --inject
-
-rewrites the markup between <!-- ORBIT:START/END --> and <!-- NETWORK:START/END -->.
-"""
-import math, pathlib, re, sys
-
-# ---------------------------------------------------------------- orbit (hero)
-def orbit_svg():
-    W, H, cx, cy = 660, 520, 330, 250
-    rx, ry = 235, 82
-    s = [f'<svg class="orbit" viewBox="0 0 {W} {H}" role="img" '
-         f'aria-label="The Fusion Farm atomic mark at the center, orbited by AI, Network and Field">']
-    # faded dot field
-    for gx in range(cx - 322, cx + 323, 14):
-        for gy in range(cy - 238, cy + 239, 14):
-            d = ((gx - cx) / 330) ** 2 + ((gy - cy) / 245) ** 2
-            if d < 1:
-                s.append(f'<circle cx="{gx}" cy="{gy}" r=".8" class="o-grid" fill-opacity="{1 - d:.2f}"/>')
-    s.append(f'<circle cx="{cx}" cy="{cy}" r="104" class="o-glow"/>')
-    orbits = [(-28, "ai", "AI", 0.0, 14), (28, "net", "NETWORK", 0.5, 18), (90, "field", "FIELD", 0.0, 22)]
-    for ang, cls, lab, t, dur in orbits:
-        path = (f"M{cx + rx},{cy} A{rx},{ry} 0 1,1 {cx - rx},{cy} "
-                f"A{rx},{ry} 0 1,1 {cx + rx},{cy}")
-        th = 2 * math.pi * t
-        ex, ey = rx * math.cos(th), ry * math.sin(th)
-        a = math.radians(ang)
-        px = cx + ex * math.cos(a) - ey * math.sin(a)
-        py = cy + ex * math.sin(a) + ey * math.cos(a)
-        s.append(f'<g class="o-{cls}">')
-        s.append(f'<ellipse cx="{cx}" cy="{cy}" rx="{rx}" ry="{ry}" class="o-ring" '
-                 f'transform="rotate({ang} {cx} {cy})"/>')
-        # fixed labelled node
-        s.append(f'<circle cx="{px:.1f}" cy="{py:.1f}" r="15" class="o-halo"/>')
-        s.append(f'<circle cx="{px:.1f}" cy="{py:.1f}" r="5.5" class="o-node"/>')
-        s.append(f'<text x="{px + 16:.1f}" y="{py - 13:.1f}" class="o-label">{lab}</text>')
-        # travelling electron
-        s.append(f'<g transform="rotate({ang} {cx} {cy})"><circle r="3" class="o-electron">'
-                 f'<animateMotion dur="{dur}s" repeatCount="indefinite" path="{path}"/></circle></g>')
-        s.append('</g>')
-    s.append(f'<circle cx="{cx}" cy="{cy}" r="64" class="o-core"/>')
-    s.append(f'<text x="{cx}" y="{cy + 100}" text-anchor="middle" class="o-caption">PEOPLE AT THE CORE</text>')
-    s.append('</svg>')
-    return "".join(s)
-
-
-# ---------------------------------------------------------------- network (reach)
-W, H = 560, 360
-CITIES = [("MSP", -93.3, 45.0, 1), ("CHI", -87.6, 41.9, 1), ("NYC", -74.0, 40.7, 0),
-          ("MEX", -99.1, 19.4, 1), ("LON", -0.1, 51.5, 1), ("LIS", -9.1, 38.7, 1),
-          ("DXB", 55.3, 25.2, 1), ("SIN", 103.8, 1.35, 1), ("TYO", 139.7, 35.7, 1),
-          ("GRU", -46.6, -23.5, 1)]
-HUBS = {"MSP", "CHI"}
-LINKS = [("MSP", "LIS"), ("MSP", "LON"), ("CHI", "DXB"), ("MSP", "TYO"), ("CHI", "MEX"),
-         ("LIS", "SIN"), ("CHI", "GRU"), ("LON", "DXB"), ("NYC", "LIS"), ("MSP", "CHI"),
-         ("CHI", "NYC"), ("DXB", "SIN")]
-
-
-def network_svg():
-    pad = 24
-    lon0, lon1, lat0, lat1 = -110, 150, 58, -30
-    P = {n: (pad + (lo - lon0) / (lon1 - lon0) * (W - 2 * pad),
-             pad + (lat0 - la) / (lat0 - lat1) * (H - 2 * pad), lab)
-         for n, lo, la, lab in CITIES}
-    s = [f'<svg class="net" viewBox="0 0 {W} {H}" role="img" '
-         f'aria-label="Network map linking Minneapolis and Chicago to cities worldwide">']
-    s.append('<defs><pattern id="dots" width="12" height="12" patternUnits="userSpaceOnUse">'
-             '<circle cx="1" cy="1" r=".9" class="net-grid"/></pattern></defs>')
-    s.append(f'<rect width="{W}" height="{H}" fill="url(#dots)"/>')
-    for i, (a, b) in enumerate(LINKS):
-        (ax, ay, _), (bx, by, _) = P[a], P[b]
-        mx, my = (ax + bx) / 2, (ay + by) / 2 - max(18, abs(bx - ax) * .22)
-        cls = "net-link hub" if a in HUBS else "net-link"
-        s.append(f'<path class="{cls}" style="--i:{i}" d="M{ax:.1f},{ay:.1f} Q{mx:.1f},{my:.1f} {bx:.1f},{by:.1f}"/>')
-    for n, (x, y, lab) in P.items():
-        hub = n in HUBS
-        if hub:
-            s.append(f'<circle class="net-halo" cx="{x:.1f}" cy="{y:.1f}" r="11"/>')
-        s.append(f'<circle class="net-node{" hub" if hub else ""}" cx="{x:.1f}" cy="{y:.1f}" r="{3.6 if hub else 3}"/>')
-        if lab:
-            below = n in ("CHI", "GRU", "SIN", "MEX")
-            dy = 18 if below else -10
-            dx = -12 if n == "MSP" else 5
-            s.append(f'<text class="net-label{" hub" if hub else ""}" x="{x+dx:.1f}" y="{y+dy:.1f}">{n}</text>')
-    s.append("</svg>")
-    return "".join(s)
-
-
-if __name__ == "__main__":
-    if "--inject" not in sys.argv:
-        print(orbit_svg()); print(network_svg()); sys.exit()
-    f = pathlib.Path(__file__).resolve().parent.parent / "index.html"
-    t = f.read_text()
-    for key, fn in (("ORBIT", orbit_svg), ("NETWORK", network_svg)):
-        t, k = re.subn(rf"(<!-- {key}:START -->).*?(<!-- {key}:END -->)",
-                       lambda m: m.group(1) + fn() + m.group(2), t, flags=re.S)
-        assert k == 1, f"{key} markers not found"
-    f.write_text(t)
-    print("injected")
+print('Rebuilt assets/img/world.svg from the cached Natural Earth dots.')

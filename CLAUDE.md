@@ -1,47 +1,16 @@
-# fusionfarm-web
+# Fusion Farm website
 
-Public website for Fusion Farm LLC — https://fusionfarm.net
+The November 1, 2026 user handoff supersedes the previous site's positioning.
 
-Static site, no build step. Open `index.html` directly or serve the folder
-(`python3 -m http.server`). Deploys to any static host as-is.
-
-## Structure
-- `index.html` — single page: hero (+ orbit graphic), service strip, the fusion
-  (Field / AI / Network), what we do, why (before capital moves), AI design &
-  implementation, who we are (+ network map), specialties, digital assets, contact
-- `404.html` — not-found page (uses absolute `/assets` paths)
-- `assets/css/site.css` — all styles
-- `assets/js/site.js` — email assembly + mobile nav (progressive enhancement)
-- `assets/img/logo.png` — the atomic mark, white on transparent; `logo-square.png`
-  is the black-square version for favicon/social (do not redraw or replace)
-- `tools/gen_graphics.py` — regenerates the orbit and city-network SVGs
-  (`python3 tools/gen_graphics.py --inject` rewrites them between the ORBIT / NETWORK markers)
-
-## Brand system (shared with the LinkedIn kit, fusionfarm-linkedin)
-- Ink background `#0B0F14`, panels `#121821`, lines `#223040`
-- Text `#EEF1F4`, muted `#8C98A6`
-- Jade accent `#5ED6AA`, signal blue secondary `#7FB8FF`
-- Manrope (headlines/body), JetBrains Mono uppercase for labels/eyebrows
-- Atomic mark always paired with "Fusion Farm" wordmark; mark itself static
-- Jade = AI, signal blue = Network, white = Field (orbit color coding)
-- Orbit graphic: atomic mark at center ("People at the core"), orbits AI / Network / Field
-- Network map: MSP/CHI hubs to LIS, LON, DXB, SIN, TYO, MEX, GRU, NYC
-- Jade/blue gradient rule under the hero
-
-## Identity (source of truth: LinkedIn kit, fusionfarm-linkedin PAGE-COPY.md)
-- Headline: "Field-proven. AI-powered."  Eyebrow: "Fusion Farm LLC · Human + AI Intelligence"
-- Secondary line: "Boots on the ground. AI in the cloud."
-- Positioning: "Fusion Farm combines seasoned field operators with AI and a global
-  network to find, verify and build what your decisions depend on."
-- Independent research & AI solutions firm — NOT a web design studio.
-- Services: field intelligence, asset discovery, due diligence, operational
-  assessments, AI design & implementation, special projects worldwide.
-- Industry experience (aviation aftermarket, hospitality, CRE research, asset
-  recovery) is credibility, not the offer.
-
-## Content rules
-- Only real, confirmed content. No placeholder copy, invented clients,
-  testimonials, metrics, or marketing fluff.
-- No plain-text email addresses or phone numbers in HTML. Emails are
-  assembled in `site.js` from `data-mail` / `data-addr` attributes.
-- Brand voice: professional, solid tech, business-exec — not "tech bro".
+- Headline: **Intelligence, engineered.**
+- Eyebrow: Fusion Farm LLC · Intelligence Systems.
+- Five services, in order: Intelligence systems; Technology solutions; Research and analysis; Due diligence and assessments; Special projects worldwide.
+- Voice: senior, calm and precise. Intelligence systems are the identity; AI may be described as a tool, not a headline claim. Do not add web design as a service.
+- Chicago is headquarters. Minneapolis and Seattle are offices.
+- Preserve the original atomic logo. Dark graphite, jade and signal blue; self-hosted Manrope and JetBrains Mono.
+- Hero world network: CHI primary, MSP and SEA secondary. Orbit: Systems (jade), Data (blue), Field (white), experience at the core.
+- No invented clients, testimonials, metrics, founding year or unconfirmed prices.
+- Four available domains use Make an offer until prices are confirmed.
+- DreamHost hosting. Static pages with a PHP contact API, honeypot and server-side Turnstile verification. Never commit secrets. Configuration lives outside the document root.
+- Emails and visible phone links are assembled in assets/js/site.js; standard Organization metadata includes the business phone for search engines.
+- Read README.md for preview, tests, source provenance and deployment.
