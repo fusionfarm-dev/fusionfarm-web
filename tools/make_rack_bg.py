@@ -4,8 +4,7 @@
     python3 tools/make_rack_bg.py        # needs: playwright (python), Pillow
 
 Original artwork (no stock imagery): network switch units with ports and green
-status LEDs, patch cables on the left, out-of-focus LEDs on the right, and a
-depth-of-field falloff. Writes src/static/assets/img/rack-bg.webp.
+status LEDs and patch cables, rendered crisp (no depth-of-field blur). Writes src/static/assets/img/rack-bg.webp.
 """
 import pathlib, random
 
@@ -19,7 +18,7 @@ def scene():
     s = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}">',
          '<defs>'
          '<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#05080D"/><stop offset=".55" stop-color="#0A1420"/><stop offset="1" stop-color="#06101A"/></linearGradient>'
-         '<linearGradient id="unit" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#132131"/><stop offset=".12" stop-color="#0D1824"/><stop offset="1" stop-color="#080F17"/></linearGradient>'
+         '<linearGradient id="unit" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1B2D42"/><stop offset=".12" stop-color="#132131"/><stop offset="1" stop-color="#0B141F"/></linearGradient>'
          '<linearGradient id="port" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#020407"/><stop offset="1" stop-color="#0A121B"/></linearGradient>'
          '<filter id="bloom" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="14" result="a"/>'
          '<feGaussianBlur in="SourceGraphic" stdDeviation="4" result="b"/><feMerge><feMergeNode in="a"/><feMergeNode in="a"/><feMergeNode in="a"/><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>'
@@ -40,14 +39,14 @@ def scene():
     units = [(150, 150), (320, 150), (490, 150)]          # (y, height)
     for ui, (uy, uh) in enumerate(units):
         s.append(f'<rect x="0" y="{uy}" width="{W}" height="{uh}" fill="url(#unit)"/>'
-                 f'<rect x="0" y="{uy}" width="{W}" height="1.5" fill="#7FA6D6" fill-opacity=".22"/>'
+                 f'<rect x="0" y="{uy}" width="{W}" height="1.5" fill="#8FB6E6" fill-opacity=".38"/>'
                  f'<rect x="0" y="{uy + uh - 2}" width="{W}" height="2" fill="#000" fill-opacity=".6"/>')
         # two rows of ports
         for row in range(2):
             py = uy + 30 + row * 60
             for i in range(26):
                 px = 120 + i * 56 + (12 if i >= 13 else 0)
-                s.append(f'<rect x="{px}" y="{py}" width="44" height="34" rx="3" fill="url(#port)" stroke="#22344A" stroke-width="1.2"/>'
+                s.append(f'<rect x="{px}" y="{py}" width="44" height="34" rx="3" fill="url(#port)" stroke="#3E5A7C" stroke-width="1.4"/>'
                          f'<rect x="{px + 8}" y="{py + 22}" width="28" height="8" rx="1.5" fill="#05090E"/>')
                 for k in range(2):                       # two status LEDs per port
                     r = rnd.random()
@@ -80,7 +79,7 @@ def scene():
                 cy = 140 + row * 130 + rnd.uniform(-8, 8)
                 r = 30 + col * 5 + rnd.uniform(-4, 4)
                 bok.append(f'<circle cx="{cx:.0f}" cy="{cy:.0f}" r="{r:.0f}" fill="url(#bk)" fill-opacity="{rnd.uniform(.6, .95):.2f}"/>')
-    s.append(f'<g filter="url(#bokeh)">{"".join(bok)}</g>')
+    # (out-of-focus foreground lights removed: keep the hardware crisp and readable)
     s.append("</svg>")
     return "".join(s)
 
@@ -93,26 +92,16 @@ def main():
     png = ROOT / "tools/.rack.png"
     with sync_playwright() as p:
         b = p.chromium.launch()
-        pg = b.new_page(viewport={"width": W, "height": H})
+        pg = b.new_page(viewport={"width": W, "height": H}, device_scale_factor=1.5)
         pg.goto(tmp.as_uri())
         pg.wait_for_timeout(300)
         pg.locator("svg").screenshot(path=str(png), timeout=180000)
         b.close()
-    sharp = Image.open(png).convert("RGB")
-    blur = sharp.filter(ImageFilter.GaussianBlur(7))
-    # depth of field: sharp around 30-55% of the width, soft toward both edges
-    mask = Image.new("L", (W, H))
-    px = mask.load()
-    for x in range(W):
-        t = x / W
-        v = 255 if .3 <= t <= .55 else int(255 * max(0, 1 - (.3 - t) / .22)) if t < .3 else int(255 * max(0, 1 - (t - .55) / .25))
-        for y in range(H):
-            px[x, y] = v
-    img = Image.composite(sharp, blur, mask)
+    img = Image.open(png).convert("RGB")
     out = ROOT / "src/static/assets/img/rack-bg.webp"
-    img.save(out, "WEBP", quality=70, method=6)
+    img.save(out, "WEBP", quality=72, method=6)
     tmp.unlink(); png.unlink()
-    print(f"{out.relative_to(ROOT)}  {out.stat().st_size // 1024} KB  ({W}x{H})")
+    print(f"{out.relative_to(ROOT)}  {out.stat().st_size // 1024} KB  {img.size}")
 
 
 if __name__ == "__main__":
