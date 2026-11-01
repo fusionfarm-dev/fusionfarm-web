@@ -17,7 +17,8 @@ See README for structure, deploy and the contact-form backend.
   tools you already use, improve from real use. Proof line: "We build what we use. We use what we build."
 - Industries (credibility, not the offer; not shown as a section on the site): commercial aviation aftermarket · hospitality & food ·
   commercial real estate · equipment & industrial assets
-- Locations: Chicago (HQ), Minneapolis, Seattle — shown in that order everywhere.
+- Locations: Chicago, Minneapolis, Seattle, in that order, set centered under the wordmark in header
+  and footer. No "HQ" label on the site (Chicago stays first; JSON-LD lists all three).
 
 ## Language rules
 - Use: intelligence systems, systems, data, research, technology solutions, development,
@@ -37,7 +38,11 @@ See README for structure, deploy and the contact-form backend.
 - Manrope (800 headlines, 500–700 body) and JetBrains Mono uppercase labels (~0.14em), self-hosted
 - The atomic mark (`assets/img/mark-white.png`, from the GitHub org avatar) always sits next to
   the wordmark. Do not redraw or recolor it. Lockups for other uses: `brand/fusionfarm-lockup-*.png`.
-- Motion is subtle (arc draw-in, hub pulse) and off under prefers-reduced-motion.
+- Hero map: supplied network image (`assets/img/hero-map.webp`, off-edge arcs painted out) with green
+  traced lines (`src/data/hero-lines.json`) and CHI/MSP/SEA office dots drawn live on top.
+  The source image is stock: confirm a licence before launch.
+- "How we work" background: original server-rack render from `tools/make_rack_bg.py`.
+- Motion is subtle (line fade-in, hub pulse) and off under prefers-reduced-motion.
 
 ## Content rules
 - Only real, confirmed content. No placeholder copy, invented clients, testimonials or metrics.

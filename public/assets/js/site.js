@@ -44,12 +44,6 @@
     document.addEventListener("keydown", function (e) { if (e.key === "Escape") close(); });
   }
 
-  // ---- network map: stagger the data pulses ----
-  document.querySelectorAll(".world .pulse").forEach(function (p, i) {
-    p.style.animationDelay = (0.6 + i * 0.29).toFixed(2) + "s";
-    p.style.animationDuration = (1.3 + (i % 5) * 0.22).toFixed(2) + "s";
-  });
-
   // ---- contact form ----
   // Asks /api/config.php whether the server-side mailer is configured. If it is,
   // renders Cloudflare Turnstile and posts to /api/contact.php. If not (or PHP is
