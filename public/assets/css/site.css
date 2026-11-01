@@ -1,12 +1,12 @@
 /* Fusion Farm — fusionfarm.net
    Dark graphite, thin lines, dot grids, mono labels. Tokens shared with the LinkedIn kit. */
 
-@font-face{font-family:"Manrope";font-weight:500;font-display:swap;src:url(/assets/fonts/manrope-latin-500-normal.woff2) format("woff2")}
-@font-face{font-family:"Manrope";font-weight:600;font-display:swap;src:url(/assets/fonts/manrope-latin-600-normal.woff2) format("woff2")}
-@font-face{font-family:"Manrope";font-weight:700;font-display:swap;src:url(/assets/fonts/manrope-latin-700-normal.woff2) format("woff2")}
-@font-face{font-family:"Manrope";font-weight:800;font-display:swap;src:url(/assets/fonts/manrope-latin-800-normal.woff2) format("woff2")}
-@font-face{font-family:"JetBrains Mono";font-weight:400;font-display:swap;src:url(/assets/fonts/jetbrains-mono-latin-400-normal.woff2) format("woff2")}
-@font-face{font-family:"JetBrains Mono";font-weight:500;font-display:swap;src:url(/assets/fonts/jetbrains-mono-latin-500-normal.woff2) format("woff2")}
+@font-face{font-family:"Manrope";font-weight:500;font-display:swap;src:url(/assets/fonts/manrope-latin-500-normal.woff2?v=119dbdffcd) format("woff2")}
+@font-face{font-family:"Manrope";font-weight:600;font-display:swap;src:url(/assets/fonts/manrope-latin-600-normal.woff2?v=c3ddfb1bc2) format("woff2")}
+@font-face{font-family:"Manrope";font-weight:700;font-display:swap;src:url(/assets/fonts/manrope-latin-700-normal.woff2?v=d7c94b4e5a) format("woff2")}
+@font-face{font-family:"Manrope";font-weight:800;font-display:swap;src:url(/assets/fonts/manrope-latin-800-normal.woff2?v=40a9e3a1e3) format("woff2")}
+@font-face{font-family:"JetBrains Mono";font-weight:400;font-display:swap;src:url(/assets/fonts/jetbrains-mono-latin-400-normal.woff2?v=3ae6215182) format("woff2")}
+@font-face{font-family:"JetBrains Mono";font-weight:500;font-display:swap;src:url(/assets/fonts/jetbrains-mono-latin-500-normal.woff2?v=35c2a72b75) format("woff2")}
 
 :root{
   --ink:#0B0F14; --ink-2:#121821; --ink-3:#0E141B; --line:#223040; --line-2:#2A3746;
@@ -70,6 +70,12 @@ ul,ol{margin:0;padding:0;list-style:none}
 .nav__links{display:flex;align-items:center;gap:30px}
 .nav__links>a:not(.btn){text-decoration:none;color:var(--text-2);font-weight:600;font-size:15px;transition:color .2s}
 .nav__links>a:not(.btn):hover,.nav__links>a[aria-current]{color:var(--text)}
+@media (min-width:861px){
+  .nav__links{gap:10px}
+  .nav__links>a:not(.btn){padding:9px 18px;border:1px solid var(--line-2);border-radius:999px;background:rgba(18,24,33,.6);transition:color .2s,border-color .2s,background .2s}
+  .nav__links>a:not(.btn):hover,.nav__links>a[aria-current]{border-color:var(--jade);background:rgba(94,214,170,.08)}
+  .nav__links .btn{margin-left:6px}
+}
 .nav__toggle{display:none;background:none;border:1px solid var(--line-2);border-radius:10px;width:44px;height:44px;padding:0;cursor:pointer;flex-direction:column;align-items:center;justify-content:center;gap:6px}
 .nav__toggle .bar{display:block;width:18px;height:2px;background:var(--text);border-radius:2px;transition:transform .2s}
 .nav__toggle[aria-expanded="true"] .bar:first-of-type{transform:translateY(4px) rotate(45deg)}
@@ -124,7 +130,7 @@ ul,ol{margin:0;padding:0;list-style:none}
 .section--rack{position:relative;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
   background:linear-gradient(90deg,rgba(11,15,20,.62) 0%,rgba(11,15,20,.38) 45%,rgba(11,15,20,.12) 100%),
     linear-gradient(180deg,rgba(11,15,20,.35),rgba(11,15,20,0) 25%,rgba(11,15,20,0) 75%,rgba(11,15,20,.4)),
-    url(/assets/img/rack-bg.webp) center/cover no-repeat,var(--ink)}
+    url(/assets/img/rack-bg.webp?v=42051e24a2) center/cover no-repeat,var(--ink)}
 .section--rack .step{background:rgba(10,15,21,.86)}
 .section--rack h2,.section--rack .proof{text-shadow:0 2px 18px rgba(0,0,0,.85)}
 .section--rack .proof{background:rgba(10,15,21,.7);padding:10px 16px 10px 18px;border-radius:0 8px 8px 0;display:inline-block}
@@ -289,7 +295,7 @@ a.desk .desk__addr{color:var(--jade)}
   .form__row{grid-template-columns:1fr}
   .hero__ctas .btn{flex:1 1 auto}
   .foot__desks>div{flex-direction:column;align-items:center;gap:2px}
-  .section--rack{background:linear-gradient(180deg,rgba(11,15,20,.55),rgba(11,15,20,.3) 50%,rgba(11,15,20,.55)),url(/assets/img/rack-bg.webp) 30% center/cover no-repeat,var(--ink)}
+  .section--rack{background:linear-gradient(180deg,rgba(11,15,20,.55),rgba(11,15,20,.3) 50%,rgba(11,15,20,.55)),url(/assets/img/rack-bg.webp?v=42051e24a2) 30% center/cover no-repeat,var(--ink)}
   .foot__desks{gap:10px}
 }
 @media (prefers-reduced-motion:reduce){
