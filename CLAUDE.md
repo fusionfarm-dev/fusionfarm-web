@@ -42,7 +42,8 @@ See README for structure, deploy and the contact-form backend.
 - Hero map: supplied network image (`assets/img/hero-map.webp`, off-edge arcs painted out) with green
   traced lines (`src/data/hero-lines.json`) and CHI/MSP/SEA office dots drawn live on top.
   The source image is stock: confirm a licence before launch.
-- "How we work" background: original server-rack render from `tools/make_rack_bg.py`.
+- "How we work" background: supplied server-rack photo (`assets/img/rack-bg.webp`, placeholder;
+  stock image, licence or replace before launch).
 - Motion is subtle (line fade-in, hub pulse) and off under prefers-reduced-motion.
 
 ## Content rules
