@@ -22,7 +22,8 @@ See README for structure, deploy and the contact-form backend.
 
 ## Language rules
 - Use: intelligence systems, systems, data, research, technology solutions, development,
-  engineered, decision-ready, "we design and build", "one accountable lead".
+  engineered, decision-ready, "we design and build", "a named lead and a senior team", "accountable delivery".
+- Never frame the firm as a one-person shop ("one person", "you work with me").
 - Avoid as identity/headline: "AI-powered", "AI-native", "AI solutions" (AI may appear only as a
   tool inside a service description). Avoid "boots on the ground" / "field-proven" as the lead.
 - Not a web design studio: never sell websites or landing pages.
