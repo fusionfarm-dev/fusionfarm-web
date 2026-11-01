@@ -116,6 +116,7 @@ ul,ol{margin:0;padding:0;list-style:none}
   linear-gradient(180deg,var(--ink-3),var(--ink));border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .section__head{margin-bottom:clamp(24px,3.2vw,40px)}
 .section__head h2{font-size:clamp(32px,4.2vw,52px);margin-top:16px;max-width:20ch}
+.section__head h2:first-child{margin-top:0}
 .section__head--row{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap}
 
 .section--rack{position:relative;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
