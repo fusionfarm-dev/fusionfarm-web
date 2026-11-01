@@ -32,7 +32,7 @@ See README for structure, deploy and the contact-form backend.
 ## Brand system
 - Ink `#0B0F14`, panels `#121821`, lines `#223040`, text `#EEF1F4`, body `#C5CDD6`, muted `#8C98A6`
 - Jade `#5ED6AA` primary accent; signal blue `#7FB8FF` secondary
-- Orbit colors: Systems = jade, Data = blue, Field = white; caption "Experience at the core"
+- Orbit colors: Systems = jade, Data = blue, Field = white; no caption inside the graphic
 - Wordmark: FUSION FARM in Michroma (0.06em tracking), outlined to SVG by `tools/make_wordmark.py`
   (`assets/img/wordmark.svg` light, `wordmark-ink.svg` dark). Never set the name in live text as a logo.
 - Manrope (800 headlines, 500–700 body) and JetBrains Mono uppercase labels (~0.14em), self-hosted

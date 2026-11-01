@@ -61,7 +61,7 @@ def orbit_svg():
     W, H = 660, 560
     cx, cy = W // 2, 270
     out = [f'<svg class="orbit" viewBox="0 0 {W} {H}" role="img" '
-           f'aria-label="Fusion diagram: experience at the core, with Systems, Data and Field in orbit">']
+           f'aria-label="Fusion diagram: Fusion Farm at the core, with Systems, Data and Field in orbit">']
     # dot grid fading toward the edge, binned into a few round-capped paths
     bins = {}
     for gx in range(cx - 322, cx + 330, 14):
@@ -88,7 +88,6 @@ def orbit_svg():
     out.append(f'<circle cx="{cx}" cy="{cy}" r="96" fill="{JADE}" fill-opacity=".06"/>')
     out.append(f'<circle cx="{cx}" cy="{cy}" r="62" fill="#0B0F14" stroke="{JADE}" stroke-opacity=".35"/>')
     out.append(f'<image href="/assets/img/mark-white.png" x="{cx - 38}" y="{cy - 46}" width="77" height="92"/>')
-    out.append(f'<text x="{cx}" y="{cy + 92}" text-anchor="middle" class="orbit__caption">EXPERIENCE AT THE CORE</text>')
     out.append("</svg>")
     return "".join(out)
 
