@@ -83,7 +83,7 @@ ul,ol{margin:0;padding:0;list-style:none}
           mask-composite:intersect}
 .hero__map .world{width:100%;height:auto}
 .hero__inner{position:relative;padding-top:clamp(28px,4vw,56px);padding-bottom:clamp(56px,7vw,100px)}
-.hero__title{font-size:clamp(44px,5.4vw,80px);letter-spacing:-.03em;line-height:.98;margin-top:24px;max-width:9ch}
+.hero__title{font-size:clamp(44px,5.4vw,80px);letter-spacing:-.03em;line-height:.98;margin-top:0;max-width:9ch}
 .hero__sub{font-size:clamp(18px,1.7vw,22px);color:var(--text-2);font-weight:600;margin-top:26px;max-width:30ch;line-height:1.45}
 .hero__ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:38px}
 
