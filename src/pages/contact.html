@@ -1,0 +1,84 @@
+<section class="pagehead">
+  <div class="wrap">
+    <p class="eyebrow mono">Contact</p>
+    <h1>Start a project.</h1>
+    <p class="pagehead__sub">Tell us the decision you're trying to make. Your message goes straight to the right desk.</p>
+  </div>
+  <div class="rule" aria-hidden="true"></div>
+</section>
+
+<section class="section section--tight">
+  <div class="wrap contact__grid">
+    <form class="form" id="contact-form" method="post" action="{{FORM_ACTION}}" {{FORM_ATTRS}} novalidate>
+      <div class="form__row">
+        <div class="field">
+          <label for="f-name">Name</label>
+          <input id="f-name" name="name" type="text" autocomplete="name" required maxlength="120">
+        </div>
+        <div class="field">
+          <label for="f-company">Company <span class="opt">(optional)</span></label>
+          <input id="f-company" name="company" type="text" autocomplete="organization" maxlength="160">
+        </div>
+      </div>
+      <div class="form__row">
+        <div class="field">
+          <label for="f-email">Email</label>
+          <input id="f-email" name="email" type="email" autocomplete="email" required maxlength="200">
+        </div>
+        <div class="field">
+          <label for="f-topic">Topic</label>
+          <select id="f-topic" name="topic" required>
+            <option value="project">Project or engagement</option>
+            <option value="research">Research</option>
+            <option value="domains">Digital assets &amp; domains</option>
+            <option value="support">Client support</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label for="f-message">What decision are you trying to make?</label>
+        <textarea id="f-message" name="message" rows="7" required maxlength="5000"></textarea>
+      </div>
+      <!-- honeypot: real visitors never see or fill this -->
+      <div class="hp" aria-hidden="true">
+        <label for="f-website">Website</label>
+        <input id="f-website" name="website" type="text" tabindex="-1" autocomplete="off">
+      </div>
+      {{TURNSTILE}}
+      <div class="form__foot">
+        <button class="btn" type="submit">Send</button>
+        <p class="form__note">We use what you send only to reply. <a class="link" href="/privacy/">Privacy</a></p>
+      </div>
+      <p class="form__status" role="status" aria-live="polite"></p>
+      <noscript><p class="form__status form__status--show">This form needs JavaScript. You can also reach us on LinkedIn.</p></noscript>
+    </form>
+
+    <aside class="desks" aria-label="Direct contacts">
+      <h2 class="eyebrow mono">Or write to a desk directly</h2>
+      <a class="desk" data-mail="pete" href="#contact-form">
+        <span class="desk__label mono">Projects &amp; engagements</span>
+        <span class="desk__addr" data-addr="pete">Enable JavaScript to view</span>
+      </a>
+      <a class="desk" data-mail="research" href="#contact-form">
+        <span class="desk__label mono">Research inquiries</span>
+        <span class="desk__addr" data-addr="research">Enable JavaScript to view</span>
+      </a>
+      <a class="desk" data-mail="domains" href="#contact-form">
+        <span class="desk__label mono">Digital assets &amp; domains</span>
+        <span class="desk__addr" data-addr="domains">Enable JavaScript to view</span>
+      </a>
+      <a class="desk" data-mail="support" href="#contact-form">
+        <span class="desk__label mono">Client support</span>
+        <span class="desk__addr" data-addr="support">Enable JavaScript to view</span>
+      </a>
+      <div class="desk desk--plain">
+        <span class="desk__label mono">Phone</span>
+        <a class="desk__addr link" data-tel href="#contact-form">Enable JavaScript to view</a>
+      </div>
+      <div class="desk desk--plain">
+        <span class="desk__label mono">Offices</span>
+        <span class="desk__addr">Chicago (HQ) · Minneapolis · Seattle</span>
+      </div>
+    </aside>
+  </div>
+</section>
