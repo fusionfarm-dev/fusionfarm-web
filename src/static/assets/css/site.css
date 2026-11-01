@@ -58,10 +58,10 @@ ul,ol{margin:0;padding:0;list-style:none}
 .nav__inner{display:flex;align-items:center;justify-content:space-between;min-height:80px}
 .brand{display:inline-flex;align-items:center;gap:12px;text-decoration:none}
 .brand__mark{width:26px;height:auto}
-.brand__word{font-weight:800;font-size:16px;letter-spacing:.04em}
+.brand__word{display:block;height:auto}
 .brand--nav{gap:14px}
 .brand--nav .brand__mark{width:40px}
-.brand--nav .brand__word{font-size:22px;letter-spacing:.05em}
+.brand--nav .brand__word{width:248px}
 .nav__links{display:flex;align-items:center;gap:30px}
 .nav__links>a:not(.btn){text-decoration:none;color:var(--text-2);font-weight:600;font-size:15px;transition:color .2s}
 .nav__links>a:not(.btn):hover,.nav__links>a[aria-current]{color:var(--text)}
@@ -225,7 +225,7 @@ a.desk .desk__addr{color:var(--jade)}
 .foot__stack{display:grid;gap:12px;justify-items:start;padding-top:40px;padding-bottom:28px}
 .brand--foot{gap:14px}
 .brand--foot .brand__mark{width:44px}
-.brand--foot .brand__word{font-size:24px;letter-spacing:.05em}
+.brand--foot .brand__word{width:272px}
 .foot__tag{font-weight:700;font-size:17px;letter-spacing:-.01em;color:var(--text-2);margin:-2px 0 6px}
 .foot__desks{display:grid;gap:6px;margin:0}
 .foot__desks>div{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 12px}
@@ -269,7 +269,7 @@ a.desk .desk__addr{color:var(--jade)}
   .nav__inner{min-height:68px}
   .brand--nav{gap:11px}
   .brand--nav .brand__mark{width:32px}
-  .brand--nav .brand__word{font-size:19px}
+  .brand--nav .brand__word{width:200px}
   .hero .eyebrow::before{width:14px}
   .services{grid-template-columns:1fr}
   .svc{min-height:0}
