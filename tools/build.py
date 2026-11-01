@@ -73,7 +73,7 @@ def orbit_svg():
         out.append(f'<path d="{"".join(segs)}" stroke="#2A3746" stroke-width="1.6" stroke-linecap="round" '
                    f'stroke-opacity="{1 - b / 5:.1f}"/>')
     # each data point travels around its own orbit (SMIL animateMotion; paused for reduced motion in site.js)
-    for ang, col, lab, t, dur in [(-28, JADE, "SYSTEMS", 0.0, 16), (28, SIGNAL, "DATA", 0.5, 21), (90, TEXT, "FIELD", 0.0, 26)]:
+    for ang, col, lab, t, dur in [(-28, JADE, "SYSTEMS", 0.0, 8), (28, SIGNAL, "DATA", 0.5, 10.5), (90, TEXT, "FIELD", 0.0, 13)]:
         rx, ry = 235, 82
         out.append(f'<ellipse cx="{cx}" cy="{cy}" rx="{rx}" ry="{ry}" fill="none" stroke="{col}" '
                    f'stroke-opacity=".55" stroke-width="1.4" transform="rotate({ang} {cx} {cy})"/>')
@@ -191,8 +191,8 @@ def layout(page):
 <header class="nav">
   <div class="wrap nav__inner">
     <a class="brand brand--nav" href="/" aria-label="Fusion Farm, home">
-      <img class="brand__mark" src="/assets/img/mark-white.png" alt="" width="40" height="48">
-      <span class="brand__text"><img class="brand__word" src="/assets/img/wordmark.svg" alt="" width="248" height="19"><span class="brand__cities mono">Chicago · Minneapolis · Seattle</span><span class="brand__tag">Intelligence, engineered.</span></span>
+      <img class="brand__mark" src="/assets/img/mark-white.png" alt="" width="52" height="62">
+      <span class="brand__text"><img class="brand__word" src="/assets/img/wordmark.svg" alt="" width="280" height="21"><span class="brand__cities mono">Chicago · Minneapolis · Seattle</span><span class="brand__tag">Intelligence, engineered.</span></span>
     </a>
     <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="nav-links">
       <span class="sr">Menu</span><span class="bar"></span><span class="bar"></span>
@@ -208,8 +208,8 @@ def layout(page):
 <footer class="foot">
   <div class="wrap foot__stack">
     <a class="brand brand--foot" href="/" aria-label="Fusion Farm, home">
-      <img class="brand__mark" src="/assets/img/mark-white.png" alt="" width="44" height="53">
-      <span class="brand__text"><img class="brand__word" src="/assets/img/wordmark.svg" alt="" width="272" height="20"><span class="brand__cities mono">Chicago · Minneapolis · Seattle</span><span class="brand__tag">Intelligence, engineered.</span></span>
+      <img class="brand__mark" src="/assets/img/mark-white.png" alt="" width="60" height="72">
+      <span class="brand__text"><img class="brand__word" src="/assets/img/wordmark.svg" alt="" width="320" height="24"><span class="brand__cities mono">Chicago · Minneapolis · Seattle</span><span class="brand__tag">Intelligence, engineered.</span></span>
     </a>
     <dl class="foot__desks">
       <div><dt class="mono">Projects, research &amp; engagements</dt><dd><a class="link" data-mail="research" href="/contact/"><span data-addr="research">Contact form</span></a></dd></div>
