@@ -31,6 +31,12 @@
     el.textContent = String(new Date().getFullYear());
   });
 
+  // ---- fusion orbit: data points travel their orbits; hold still for reduced motion ----
+  var orbitSvg = document.querySelector(".orbit");
+  if (orbitSvg && window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches && orbitSvg.pauseAnimations) {
+    orbitSvg.pauseAnimations();
+  }
+
   // ---- mobile nav ----
   var toggle = document.querySelector(".nav__toggle");
   var links = document.getElementById("nav-links");
@@ -43,12 +49,6 @@
     links.addEventListener("click", function (e) { if (e.target.closest("a")) close(); });
     document.addEventListener("keydown", function (e) { if (e.key === "Escape") close(); });
   }
-
-  // ---- network map: stagger the data pulses ----
-  document.querySelectorAll(".world .pulse").forEach(function (p, i) {
-    p.style.animationDelay = (1.2 + i * 0.73).toFixed(2) + "s";
-    p.style.animationDuration = (3.2 + (i % 4) * 0.6).toFixed(1) + "s";
-  });
 
   // ---- contact form ----
   // Asks /api/config.php whether the server-side mailer is configured. If it is,

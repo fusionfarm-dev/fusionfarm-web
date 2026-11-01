@@ -23,95 +23,33 @@ JADE, SIGNAL, TEXT = "#5ED6AA", "#7FB8FF", "#EEF1F4"
 esc = html.escape
 
 # --------------------------------------------------------------------------
-# Global network map: dot-matrix land + a backbone mesh of network nodes
-# (equirectangular, 1 unit = 1 degree). Links follow plausible terrestrial
-# and subsea routes; transpacific links run off the map edges.
+# Hero map: supplied network image (assets/img/hero-map.webp, 450x253 source
+# upscaled) with the three offices marked. Positions are in source-image units.
 # --------------------------------------------------------------------------
-NODES = {
-    # North America
-    "SEA": (-122.3, 47.6), "SFO": (-122.4, 37.8), "LAX": (-118.2, 34.1), "MSP": (-93.3, 45.0),
-    "CHI": (-87.6, 41.9), "DFW": (-96.8, 32.8), "ATL": (-84.4, 33.7), "TOR": (-79.4, 43.7),
-    "NYC": (-74.0, 40.7), "MIA": (-80.2, 25.8), "MEX": (-99.1, 19.4),
-    # South America
-    "BOG": (-74.1, 4.7), "LIM": (-77.0, -12.0), "SCL": (-70.7, -33.4), "EZE": (-58.4, -34.6),
-    "GRU": (-46.6, -23.5), "FOR": (-38.5, -3.7),
-    # Europe
-    "LON": (-0.1, 51.5), "AMS": (4.9, 52.4), "FRA": (8.7, 50.1), "PAR": (2.35, 48.9),
-    "MAR": (5.4, 43.3), "MAD": (-3.7, 40.4), "LIS": (-9.1, 38.7), "STO": (18.1, 59.3), "IST": (29.0, 41.0),
-    # Africa and Middle East
-    "LOS": (3.4, 6.5), "CPT": (18.4, -33.9), "JNB": (28.0, -26.2), "MBA": (39.7, -4.0),
-    "DJI": (43.1, 11.6), "CAI": (31.2, 30.0), "DXB": (55.3, 25.2),
-    # Asia-Pacific
-    "BOM": (72.9, 19.1), "DEL": (77.2, 28.6), "MAA": (80.3, 13.1), "SIN": (103.8, 1.35),
-    "HKG": (114.2, 22.3), "SEL": (127.0, 37.6), "TYO": (139.7, 35.7), "PER": (115.9, -31.9),
-    "SYD": (151.2, -33.9),
-}
-EDGES = [
-    # North America
-    ("SEA", "SFO"), ("SFO", "LAX"), ("SEA", "MSP"), ("MSP", "CHI"), ("CHI", "TOR"), ("TOR", "NYC"),
-    ("CHI", "NYC"), ("SFO", "DFW"), ("LAX", "DFW"), ("DFW", "CHI"), ("DFW", "ATL"), ("CHI", "ATL"),
-    ("ATL", "NYC"), ("ATL", "MIA"), ("LAX", "MEX"), ("DFW", "MEX"), ("MSP", "DFW"),
-    # Latin America
-    ("MEX", "BOG"), ("MIA", "BOG"), ("BOG", "LIM"), ("LIM", "SCL"), ("SCL", "EZE"), ("EZE", "GRU"),
-    ("GRU", "FOR"), ("MIA", "FOR"),
-    # Atlantic
-    ("NYC", "LON"), ("NYC", "MAD"), ("FOR", "LIS"),
-    # Europe
-    ("LON", "AMS"), ("LON", "PAR"), ("AMS", "FRA"), ("PAR", "FRA"), ("AMS", "STO"), ("FRA", "STO"),
-    ("PAR", "MAR"), ("PAR", "MAD"), ("MAD", "LIS"), ("FRA", "IST"), ("MAR", "IST"),
-    # Africa and Middle East
-    ("LIS", "LOS"), ("LOS", "CPT"), ("CPT", "JNB"), ("JNB", "MBA"), ("MBA", "DJI"), ("DJI", "CAI"),
-    ("MAR", "CAI"), ("IST", "CAI"), ("CAI", "DXB"), ("DJI", "DXB"),
-    # Asia-Pacific
-    ("DXB", "BOM"), ("DJI", "BOM"), ("BOM", "DEL"), ("BOM", "MAA"), ("DEL", "MAA"), ("MAA", "SIN"),
-    ("SIN", "HKG"), ("HKG", "SEL"), ("HKG", "TYO"), ("SEL", "TYO"), ("SIN", "PER"), ("PER", "SYD"),
-    ("SIN", "SYD"),
+MAP_W, MAP_H = 450, 253
+OFFICES = [  # (code, x, y, label dx, label dy, anchor)
+    ("SEA", 33.3, 87.5, -2.4, -3.2, "end"),
+    ("MSP", 57.5, 92.6, -0.5, -4.0, "middle"),
+    ("CHI", 63.2, 97.6, 2.6, 4.6, "start"),
 ]
-# links that leave the map edge (they continue across the Pacific)
-STUBS = [("SEA", -1, 44.0), ("LAX", -1, 30.0), ("TYO", 1, 40.0), ("SYD", 1, -30.0), ("HKG", 1, 18.0)]
-HUBS = ("CHI", "MSP", "SEA")
-# a few packets moving along links out of the hubs (pulse animation)
-PULSES = [("CHI", "NYC"), ("NYC", "LON"), ("MSP", "CHI"), ("SEA", "SFO"), ("CHI", "DFW"), ("LON", "AMS"),
-          ("FRA", "IST"), ("DXB", "BOM"), ("MAA", "SIN"), ("SIN", "HKG"), ("FOR", "LIS"), ("MIA", "BOG")]
-LON0, LAT_TOP, LAT_BOT, LON1 = -132.0, 73.0, -47.0, 160.0  # crop: Alaska to Sydney
 
 
 def world_svg():
-    X = lambda lon: lon - LON0
-    Y = lambda lat: LAT_TOP - lat
-    w, h = LON1 - LON0, LAT_TOP - LAT_BOT
-    P = {n: (X(lo), Y(la)) for n, (lo, la) in NODES.items()}
-    dots = json.loads((SRC / "data/world-dots.json").read_text())
-    land = "".join(f"M{X(lo):.1f} {Y(la):.1f}h0" for lo, la in dots if LON0 <= lo <= LON1 and LAT_BOT <= la <= LAT_TOP)
-    hubby = lambda a, b: a in HUBS or b in HUBS
-    seg = lambda a, b: f"M{P[a][0]:.1f} {P[a][1]:.1f}L{P[b][0]:.1f} {P[b][1]:.1f}"
-    mesh = "".join(seg(a, b) for a, b in EDGES if not hubby(a, b))
-    hubmesh = "".join(seg(a, b) for a, b in EDGES if hubby(a, b))
-    stubs = "".join(f"M{P[n][0]:.1f} {P[n][1]:.1f}L{(0 if d < 0 else w):.1f} {Y(la):.1f}" for n, d, la in STUBS)
-    out = [f'<svg class="world" viewBox="0 0 {w:.0f} {h:.0f}" role="img" '
-           f'aria-label="Global network map: Chicago headquarters with Minneapolis and Seattle offices, '
-           f'connected to a worldwide network" preserveAspectRatio="xMidYMid meet">',
-           '<defs><linearGradient id="stubL" x1="0" x2="1"><stop offset="0" stop-color="#7FB8FF" stop-opacity="0"/>'
-           '<stop offset="1" stop-color="#7FB8FF" stop-opacity=".35"/></linearGradient></defs>',
-           f'<path class="world__land" d="{land}"/>',
-           f'<path class="net__stub" d="{stubs}"/>',
-           f'<path class="net__mesh" d="{mesh}"/>',
-           f'<path class="net__mesh net__mesh--hub" d="{hubmesh}"/>',
-           '<g class="net__pulses">']
-    for a, b in PULSES:
-        out.append(f'<path class="pulse" pathLength="1" d="{seg(a, b)}"/>')
-    out.append('</g><g class="net__nodes">')
-    for n, (x, y) in P.items():
-        if n in HUBS:
-            r = 4.0 if n == "CHI" else 2.7
-            out.append(f'<circle class="glow{" glow--hq" if n == "CHI" else ""}" cx="{x:.1f}" cy="{y:.1f}" r="{r}"/>')
-            out.append(f'<circle class="node node--hub" cx="{x:.1f}" cy="{y:.1f}" r=".95"/>')
-        else:
-            out.append(f'<circle class="node__halo" cx="{x:.1f}" cy="{y:.1f}" r="1.9"/>')
-            out.append(f'<circle class="node" cx="{x:.1f}" cy="{y:.1f}" r=".8"/>')
-    for n, dx, dy, anchor in (("CHI", 2.0, 5.0, "start"), ("MSP", -1.2, -2.8, "end"), ("SEA", 1.4, -2.8, "start")):
-        x, y = P[n]
-        out.append(f'<text class="hublabel" x="{x + dx:.1f}" y="{y + dy:.1f}" text-anchor="{anchor}">{n}</text>')
+    out = [f'<svg class="world" viewBox="0 0 {MAP_W} {MAP_H}" role="img" '
+           f'aria-label="Global network map with offices in Chicago, Minneapolis and Seattle" '
+           f'preserveAspectRatio="xMidYMid meet">',
+           '<defs><radialGradient id="hubg"><stop offset="0" stop-color="#FFE3D6" stop-opacity=".95"/>'
+           '<stop offset=".35" stop-color="#FF5A3C" stop-opacity=".6"/><stop offset="1" stop-color="#FF3B2F" stop-opacity="0"/></radialGradient></defs>',
+           f'<image href="/assets/img/hero-map.webp" x="0" y="0" width="{MAP_W}" height="{MAP_H}"/>']
+    lines = json.loads((SRC / "data/hero-lines.json").read_text())
+    out.append('<path class="hero__lines" d="' + "".join(
+        f"M{x0} {y0}Q{cx} {cy} {x1} {y1}" for x0, y0, cx, cy, x1, y1 in lines) + '"/>')
+    out.append('<g class="offices">')
+    for code, x, y, dx, dy, anchor in OFFICES:
+        out.append(f'<circle class="hubglow" cx="{x}" cy="{y}" r="7" fill="url(#hubg)"/>')
+        out.append(f'<circle class="node--hub" cx="{x}" cy="{y}" r="1.7"/>')
+    for code, x, y, dx, dy, anchor in OFFICES:
+        out.append(f'<text class="hublabel" x="{x + dx:.1f}" y="{y + dy:.1f}" text-anchor="{anchor}">{code}</text>')
     out.append("</g></svg>")
     return "".join(out)
 
@@ -123,7 +61,7 @@ def orbit_svg():
     W, H = 660, 560
     cx, cy = W // 2, 270
     out = [f'<svg class="orbit" viewBox="0 0 {W} {H}" role="img" '
-           f'aria-label="Fusion diagram: experience at the core, with Systems, Data and Field in orbit">']
+           f'aria-label="Fusion diagram: Fusion Farm at the core, with Systems, Data and Field in orbit">']
     # dot grid fading toward the edge, binned into a few round-capped paths
     bins = {}
     for gx in range(cx - 322, cx + 330, 14):
@@ -134,23 +72,22 @@ def orbit_svg():
     for b, segs in sorted(bins.items()):
         out.append(f'<path d="{"".join(segs)}" stroke="#2A3746" stroke-width="1.6" stroke-linecap="round" '
                    f'stroke-opacity="{1 - b / 5:.1f}"/>')
-    for ang, col, lab, t in [(-28, JADE, "SYSTEMS", 0.0), (28, SIGNAL, "DATA", 0.5), (90, TEXT, "FIELD", 0.0)]:
+    # each data point travels around its own orbit (SMIL animateMotion; paused for reduced motion in site.js)
+    for ang, col, lab, t, dur in [(-28, JADE, "SYSTEMS", 0.0, 6), (28, SIGNAL, "DATA", 0.5, 8), (90, TEXT, "FIELD", 0.0, 10)]:
         rx, ry = 235, 82
         out.append(f'<ellipse cx="{cx}" cy="{cy}" rx="{rx}" ry="{ry}" fill="none" stroke="{col}" '
                    f'stroke-opacity=".55" stroke-width="1.4" transform="rotate({ang} {cx} {cy})"/>')
-        th = 2 * math.pi * t
-        ex, ey = rx * math.cos(th), ry * math.sin(th)
-        a = math.radians(ang)
-        px, py = cx + ex * math.cos(a) - ey * math.sin(a), cy + ex * math.sin(a) + ey * math.cos(a)
-        out.append(f'<circle class="orbit__halo" cx="{px:.1f}" cy="{py:.1f}" r="14" fill="{col}" fill-opacity=".14"/>')
-        out.append(f'<circle cx="{px:.1f}" cy="{py:.1f}" r="5.5" fill="{col}"/>')
-        tx = px + 14 if lab != "DATA" else px - 14
-        anchor = "start" if lab != "DATA" else "end"
-        out.append(f'<text x="{tx:.1f}" y="{py - 12:.1f}" text-anchor="{anchor}" class="orbit__label" fill="{col}">{lab}</text>')
+        orbit = (f"M{cx + rx} {cy}A{rx} {ry} 0 1 1 {cx - rx} {cy}A{rx} {ry} 0 1 1 {cx + rx} {cy}")
+        tx, anchor = (-14, "end") if lab == "DATA" else (14, "start")
+        out.append(f'<g transform="rotate({ang} {cx} {cy})"><g class="orbit__point">'
+                   f'<circle class="orbit__halo" r="14" fill="{col}" fill-opacity=".14"/>'
+                   f'<circle r="5.5" fill="{col}"/>'
+                   f'<text transform="rotate({-ang})" x="{tx}" y="-12" text-anchor="{anchor}" class="orbit__label" fill="{col}">{lab}</text>'
+                   f'<animateMotion dur="{dur}s" begin="{-t * dur:.1f}s" repeatCount="indefinite" path="{orbit}"/>'
+                   f'</g></g>')
     out.append(f'<circle cx="{cx}" cy="{cy}" r="96" fill="{JADE}" fill-opacity=".06"/>')
     out.append(f'<circle cx="{cx}" cy="{cy}" r="62" fill="#0B0F14" stroke="{JADE}" stroke-opacity=".35"/>')
     out.append(f'<image href="/assets/img/mark-white.png" x="{cx - 38}" y="{cy - 46}" width="77" height="92"/>')
-    out.append(f'<text x="{cx}" y="{cy + 92}" text-anchor="middle" class="orbit__caption">EXPERIENCE AT THE CORE</text>')
     out.append("</svg>")
     return "".join(out)
 
@@ -253,8 +190,8 @@ def layout(page):
 <header class="nav">
   <div class="wrap nav__inner">
     <a class="brand brand--nav" href="/" aria-label="Fusion Farm, home">
-      <img class="brand__mark" src="/assets/img/mark-white.png" alt="" width="40" height="48">
-      <span class="brand__word">FUSION FARM</span>
+      <img class="brand__mark" src="/assets/img/mark-white.png" alt="" width="52" height="62">
+      <span class="brand__text"><img class="brand__word" src="/assets/img/wordmark.svg" alt="" width="280" height="21"><span class="brand__cities mono">Chicago · Minneapolis · Seattle</span><span class="brand__tag">Intelligence, engineered.</span></span>
     </a>
     <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="nav-links">
       <span class="sr">Menu</span><span class="bar"></span><span class="bar"></span>
@@ -269,21 +206,20 @@ def layout(page):
 </main>
 <footer class="foot">
   <div class="wrap foot__stack">
-    <a class="brand" href="/" aria-label="Fusion Farm, home">
-      <img class="brand__mark" src="/assets/img/mark-white-62.png" alt="" width="26" height="31">
-      <span class="brand__word">FUSION FARM</span>
+    <a class="brand brand--foot" href="/" aria-label="Fusion Farm, home">
+      <img class="brand__mark" src="/assets/img/mark-white.png" alt="" width="60" height="72">
+      <span class="brand__text"><img class="brand__word" src="/assets/img/wordmark.svg" alt="" width="320" height="24"><span class="brand__cities mono">Chicago · Minneapolis · Seattle</span><span class="brand__tag">Intelligence, engineered.</span></span>
     </a>
-    <p class="foot__tag">Intelligence, engineered.</p>
     <dl class="foot__desks">
       <div><dt class="mono">Projects, research &amp; engagements</dt><dd><a class="link" data-mail="research" href="/contact/"><span data-addr="research">Contact form</span></a></dd></div>
       <div><dt class="mono">Digital assets &amp; domains</dt><dd><a class="link" data-mail="domains" href="/contact/"><span data-addr="domains">Contact form</span></a></dd></div>
       <div><dt class="mono">Client support</dt><dd><a class="link" data-mail="support" href="/contact/"><span data-addr="support">Contact form</span></a></dd></div>
+      <div><dt class="mono">Contact</dt><dd><a class="link" data-tel href="/contact/">Call us</a></dd></div>
     </dl>
-    <p class="foot__phone"><a class="link" data-tel href="/contact/">Call us</a></p>
-    <p class="foot__cities mono"><span>Chicago <em>HQ</em></span> · Minneapolis · Seattle</p>
   </div>
   <div class="wrap foot__base">
-    <a class="link" href="{CFG['linkedin']}" rel="noopener">LinkedIn</a><span aria-hidden="true">·</span><a class="link" href="/privacy/">Privacy</a><span aria-hidden="true">·</span><span>© <span data-year>2026</span> Fusion Farm LLC</span>
+    <p class="foot__links"><a class="link" href="{CFG['linkedin']}" rel="noopener">LinkedIn</a><span aria-hidden="true">·</span><a class="link" href="/privacy/">Privacy</a></p>
+    <p>© <span data-year>2026</span> Fusion Farm LLC</p>
   </div>
 </footer>
 <script src="/assets/js/site.js" defer></script>

@@ -22,6 +22,8 @@ python3 -m http.server -d public 8080   # open http://localhost:8080
 | `src/data/domains.json` | Domain portfolio. `listed: false` hides a name; `price: null` shows "Make an offer" |
 | `src/data/world-dots.json` | Land dots for the network map (Natural Earth 50m, 2.2° grid, from the LinkedIn kit) |
 | `src/static/` | Copied as-is: CSS, JS, self-hosted fonts, mark, favicons, OG image |
+| `brand/` | Wordmark SVGs, mark + wordmark lockup PNGs (transparent, white and ink), Michroma source font (OFL) |
+| `tools/make_wordmark.py` | Re-outlines the Michroma wordmark into SVG (`pip install fonttools brotli`) |
 | `tools/build.py` | Layout, world-network map and fusion-orbit SVGs, domain cards, sitemap, robots, host headers |
 | `src/static/api/` | PHP contact endpoint (`contact.php`, `config.php`, `common.php`) |
 | `tests/contact-test.php` | Routing, validation and header-injection tests for the form |
