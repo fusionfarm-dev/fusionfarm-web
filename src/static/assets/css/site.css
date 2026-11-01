@@ -236,6 +236,7 @@ a.desk .desk__addr{color:var(--jade)}
 .foot__cities em{font-style:normal;color:var(--jade)}
 .foot__base{display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;
   padding-top:16px;padding-bottom:24px;border-top:1px solid var(--line);color:var(--mute);font-size:14px}
+.foot__links{display:flex;align-items:center;gap:12px}
 
 /* ---------- responsive ---------- */
 @media (max-width:980px){
