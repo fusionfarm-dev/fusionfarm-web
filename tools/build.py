@@ -72,7 +72,9 @@ STUBS = [("SEA", -1, 44.0), ("LAX", -1, 30.0), ("TYO", 1, 40.0), ("SYD", 1, -30.
 HUBS = ("CHI", "MSP", "SEA")
 # a few packets moving along links out of the hubs (pulse animation)
 PULSES = [("CHI", "NYC"), ("NYC", "LON"), ("MSP", "CHI"), ("SEA", "SFO"), ("CHI", "DFW"), ("LON", "AMS"),
-          ("FRA", "IST"), ("DXB", "BOM"), ("MAA", "SIN"), ("SIN", "HKG"), ("FOR", "LIS"), ("MIA", "BOG")]
+          ("FRA", "IST"), ("DXB", "BOM"), ("MAA", "SIN"), ("SIN", "HKG"), ("FOR", "LIS"), ("MIA", "BOG"),
+          ("SEA", "MSP"), ("NYC", "MAD"), ("CAI", "DXB"), ("HKG", "TYO"), ("GRU", "FOR"), ("LIS", "LOS"),
+          ("PER", "SYD"), ("ATL", "MIA")]
 LON0, LAT_TOP, LAT_BOT, LON1 = -132.0, 73.0, -47.0, 160.0  # crop: Alaska to Sydney
 
 
@@ -84,10 +86,22 @@ def world_svg():
     dots = json.loads((SRC / "data/world-dots.json").read_text())
     land = "".join(f"M{X(lo):.1f} {Y(la):.1f}h0" for lo, la in dots if LON0 <= lo <= LON1 and LAT_BOT <= la <= LAT_TOP)
     hubby = lambda a, b: a in HUBS or b in HUBS
-    seg = lambda a, b: f"M{P[a][0]:.1f} {P[a][1]:.1f}L{P[b][0]:.1f} {P[b][1]:.1f}"
+    def curve(x1, y1, x2, y2):
+        # quadratic bow, bending poleward like a great-circle route on a flat map
+        dx, dy = x2 - x1, y2 - y1
+        d = math.hypot(dx, dy) or 1
+        nx, ny = -dy / d, dx / d
+        my = (y1 + y2) / 2
+        pole = -1 if Y(0) > my else 1          # north of the equator bows up (smaller y)
+        if ny * pole < 0:
+            nx, ny = -nx, -ny
+        k = min(9.0, 0.16 * d)
+        cx, cy = (x1 + x2) / 2 + nx * k, my + ny * k
+        return f"M{x1:.1f} {y1:.1f}Q{cx:.1f} {cy:.1f} {x2:.1f} {y2:.1f}"
+    seg = lambda a, b: curve(P[a][0], P[a][1], P[b][0], P[b][1])
     mesh = "".join(seg(a, b) for a, b in EDGES if not hubby(a, b))
     hubmesh = "".join(seg(a, b) for a, b in EDGES if hubby(a, b))
-    stubs = "".join(f"M{P[n][0]:.1f} {P[n][1]:.1f}L{(0 if d < 0 else w):.1f} {Y(la):.1f}" for n, d, la in STUBS)
+    stubs = "".join(curve(P[n][0], P[n][1], 0 if d < 0 else w, Y(la)) for n, d, la in STUBS)
     out = [f'<svg class="world" viewBox="0 0 {w:.0f} {h:.0f}" role="img" '
            f'aria-label="Global network map: Chicago headquarters with Minneapolis and Seattle offices, '
            f'connected to a worldwide network" preserveAspectRatio="xMidYMid meet">',
@@ -269,8 +283,8 @@ def layout(page):
 </main>
 <footer class="foot">
   <div class="wrap foot__stack">
-    <a class="brand" href="/" aria-label="Fusion Farm, home">
-      <img class="brand__mark" src="/assets/img/mark-white-62.png" alt="" width="26" height="31">
+    <a class="brand brand--foot" href="/" aria-label="Fusion Farm, home">
+      <img class="brand__mark" src="/assets/img/mark-white.png" alt="" width="44" height="53">
       <span class="brand__word">FUSION FARM</span>
     </a>
     <p class="foot__tag">Intelligence, engineered.</p>
@@ -278,12 +292,14 @@ def layout(page):
       <div><dt class="mono">Projects, research &amp; engagements</dt><dd><a class="link" data-mail="research" href="/contact/"><span data-addr="research">Contact form</span></a></dd></div>
       <div><dt class="mono">Digital assets &amp; domains</dt><dd><a class="link" data-mail="domains" href="/contact/"><span data-addr="domains">Contact form</span></a></dd></div>
       <div><dt class="mono">Client support</dt><dd><a class="link" data-mail="support" href="/contact/"><span data-addr="support">Contact form</span></a></dd></div>
+      <div><dt class="mono">Contact</dt><dd><a class="link" data-tel href="/contact/">Call us</a></dd></div>
     </dl>
-    <p class="foot__phone"><a class="link" data-tel href="/contact/">Call us</a></p>
     <p class="foot__cities mono"><span>Chicago <em>HQ</em></span> · Minneapolis · Seattle</p>
   </div>
   <div class="wrap foot__base">
-    <a class="link" href="{CFG['linkedin']}" rel="noopener">LinkedIn</a><span aria-hidden="true">·</span><a class="link" href="/privacy/">Privacy</a><span aria-hidden="true">·</span><span>© <span data-year>2026</span> Fusion Farm LLC</span>
+    <a class="link" href="{CFG['linkedin']}" rel="noopener">LinkedIn</a>
+    <a class="link" href="/privacy/">Privacy</a>
+    <p>© <span data-year>2026</span> Fusion Farm LLC</p>
   </div>
 </footer>
 <script src="/assets/js/site.js" defer></script>

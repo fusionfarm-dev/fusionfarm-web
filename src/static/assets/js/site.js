@@ -46,8 +46,8 @@
 
   // ---- network map: stagger the data pulses ----
   document.querySelectorAll(".world .pulse").forEach(function (p, i) {
-    p.style.animationDelay = (1.2 + i * 0.73).toFixed(2) + "s";
-    p.style.animationDuration = (3.2 + (i % 4) * 0.6).toFixed(1) + "s";
+    p.style.animationDelay = (0.6 + i * 0.29).toFixed(2) + "s";
+    p.style.animationDuration = (1.3 + (i % 5) * 0.22).toFixed(2) + "s";
   });
 
   // ---- contact form ----
