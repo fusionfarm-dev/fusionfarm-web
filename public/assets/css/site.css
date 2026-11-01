@@ -188,6 +188,7 @@ ul,ol{margin:0;padding:0;list-style:none}
   radial-gradient(800px 400px at 80% 0%,#13202A,transparent 70%),var(--ink)}
 .pagehead .wrap{padding-top:clamp(48px,7vw,88px);padding-bottom:clamp(36px,4.5vw,56px)}
 .pagehead h1{font-size:clamp(40px,6vw,72px);letter-spacing:-.028em;margin-top:20px}
+.pagehead h1:first-child{margin-top:0}
 .pagehead__sub{color:var(--text-2);font-size:clamp(17px,1.6vw,20px);margin-top:18px;max-width:56ch}
 .pagehead--404 .wrap{padding-bottom:clamp(96px,12vw,160px)}
 
