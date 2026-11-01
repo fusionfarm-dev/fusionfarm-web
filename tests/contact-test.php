@@ -9,7 +9,7 @@ function check(bool $condition, string $label): void {
 }
 
 $valid = ['name' => 'A visitor', 'company' => 'Example', 'email' => 'visitor@example.com', 'message' => 'A decision about a new market.'];
-foreach (['project' => 'pete', 'research' => 'research', 'domains' => 'domains', 'support' => 'support'] as $topic => $inbox) {
+foreach (['project' => 'research', 'research' => 'research', 'domains' => 'domains', 'support' => 'support'] as $topic => $inbox) {
     $result = ff_message($valid + ['topic' => $topic]);
     check($result['to'] === "$inbox@fusionfarm.net", "Routes $topic to $inbox@");
     check($result['reply_to'] === $valid['email'], "Reply-To is the visitor ($topic)");

@@ -46,7 +46,7 @@ Note: Pages does not run PHP, so the contact form would fall back to email links
 
 ## Contact form
 
-The form routes by topic: Project → pete@, Research → research@, Digital assets → domains@, Support → support@.
+The form routes by topic: Projects, research & engagements → research@, Digital assets → domains@, Support → support@.
 It runs on DreamHost's PHP (`public/api/`), with Cloudflare Turnstile as the spam check and a honeypot field.
 
 - **Until it is configured**, `/api/config.php` reports the form as off, and Send opens the visitor's

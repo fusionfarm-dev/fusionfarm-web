@@ -9,7 +9,7 @@
 
   var host = ["fusionfarm", "net"].join(".");
   var addr = function (box) { return box + "@" + host; };
-  var BOX = { project: "pete", research: "research", domains: "domains", support: "support" };
+  var BOX = { project: "research", research: "research", domains: "domains", support: "support" };
 
   // ---- emails ----
   document.querySelectorAll("[data-mail]").forEach(function (el) {
@@ -44,9 +44,10 @@
     document.addEventListener("keydown", function (e) { if (e.key === "Escape") close(); });
   }
 
-  // ---- network arcs: stagger the draw-in ----
-  document.querySelectorAll(".world .arc").forEach(function (p, i) {
-    p.style.animationDelay = (0.25 + i * 0.09).toFixed(2) + "s";
+  // ---- network map: stagger the data pulses ----
+  document.querySelectorAll(".world .pulse").forEach(function (p, i) {
+    p.style.animationDelay = (1.2 + i * 0.73).toFixed(2) + "s";
+    p.style.animationDuration = (3.2 + (i % 4) * 0.6).toFixed(1) + "s";
   });
 
   // ---- contact form ----
@@ -117,7 +118,7 @@
       message: msg.value.trim()
     };
     var label = topic.options[topic.selectedIndex].text;
-    var desk = addr(BOX[data.topic] || "pete");
+    var desk = addr(BOX[data.topic] || "research");
 
     if (!live) {
       var subject = "Website inquiry: " + label + (data.company ? " (" + data.company + ")" : "");

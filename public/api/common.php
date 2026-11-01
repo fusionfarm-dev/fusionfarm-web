@@ -6,7 +6,7 @@
 declare(strict_types=1);
 
 const FF_ROUTES = [
-    'project'  => ['pete',     'Project'],
+    'project'  => ['research', 'Projects, research & engagements'],
     'research' => ['research', 'Research'],
     'domains'  => ['domains',  'Digital assets'],
     'support'  => ['support',  'Support'],
