@@ -10,7 +10,7 @@ fusion orbit, ported from the fusionfarm-linkedin build.py), builds the domain
 cards from src/data/domains.json, and writes sitemap, robots and host headers.
 Standard library only.
 """
-import html, json, math, pathlib, shutil
+import hashlib, html, json, math, pathlib, re, shutil
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SRC, OUT = ROOT / "src", ROOT / "public"
@@ -42,14 +42,15 @@ def world_svg():
            '<stop offset=".35" stop-color="#FF5A3C" stop-opacity=".6"/><stop offset="1" stop-color="#FF3B2F" stop-opacity="0"/></radialGradient></defs>',
            f'<image href="/assets/img/hero-map.webp" x="0" y="0" width="{MAP_W}" height="{MAP_H}"/>']
     lines = json.loads((SRC / "data/hero-lines.json").read_text())
-    out.append('<path class="hero__lines" d="' + "".join(
+    out.append('<path class="hero__lines" fill="none" stroke="#50FFA0" stroke-opacity=".9" stroke-width="1.2" '
+               'stroke-linecap="round" vector-effect="non-scaling-stroke" d="' + "".join(
         f"M{x0} {y0}Q{cx} {cy} {x1} {y1}" for x0, y0, cx, cy, x1, y1 in lines) + '"/>')
     out.append('<g class="offices">')
     for code, x, y, dx, dy, anchor in OFFICES:
         out.append(f'<circle class="hubglow" cx="{x}" cy="{y}" r="7" fill="url(#hubg)"/>')
-        out.append(f'<circle class="node--hub" cx="{x}" cy="{y}" r="1.7"/>')
+        out.append(f'<circle class="node--hub" cx="{x}" cy="{y}" r="1.7" fill="#FFFFFF"/>')
     for code, x, y, dx, dy, anchor in OFFICES:
-        out.append(f'<text class="hublabel" x="{x + dx:.1f}" y="{y + dy:.1f}" text-anchor="{anchor}">{code}</text>')
+        out.append(f'<text class="hublabel" x="{x + dx:.1f}" y="{y + dy:.1f}" text-anchor="{anchor}" fill="#FFE3D6" font-size="5.4">{code}</text>')
     out.append("</g></svg>")
     return "".join(out)
 
@@ -325,6 +326,24 @@ def write_hosting_files():
     (OUT / "_redirects").write_text("/assets /domains/ 301\n/contact /contact/ 301\n/domains /domains/ 301\n/privacy /privacy/ 301\n")
 
 
+def _ver(rel):
+    f = OUT / rel.lstrip("/")
+    return hashlib.sha1(f.read_bytes()).hexdigest()[:10] if f.is_file() else None
+
+
+def bust_caches():
+    """Append ?v=<content hash> to every /assets/ URL so a deploy never serves stale CSS, JS or images.
+    CSS is rewritten first (its own hash then reflects the new font and image URLs)."""
+    css_ref = re.compile(r"url\((/assets/[^)?#]+)\)")
+    for css in (OUT / "assets/css").glob("*.css"):
+        text = css.read_text()
+        css.write_text(css_ref.sub(lambda m: f"url({m.group(1)}?v={_ver(m.group(1))})" if _ver(m.group(1)) else m.group(0), text))
+    attr_ref = re.compile(r'((?:href|src)=")(/assets/[^"?#]+)(")')
+    for page in OUT.rglob("*.html"):
+        text = page.read_text()
+        page.write_text(attr_ref.sub(lambda m: f"{m.group(1)}{m.group(2)}?v={_ver(m.group(2))}{m.group(3)}" if _ver(m.group(2)) else m.group(0), text))
+
+
 def main():
     if OUT.exists():
         shutil.rmtree(OUT)
@@ -335,6 +354,7 @@ def main():
         dest = OUT / (rel if rel.endswith(".html") else (rel + "/index.html" if rel else "index.html"))
         dest.parent.mkdir(parents=True, exist_ok=True)
         dest.write_text(layout(p))
+    bust_caches()
     urls = [p["path"] for p in PAGES if not p.get("noindex")]
     (OUT / "sitemap.xml").write_text(
         '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'

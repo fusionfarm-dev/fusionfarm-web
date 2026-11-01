@@ -67,6 +67,11 @@ It runs on DreamHost's PHP (`public/api/`), with Cloudflare Turnstile as the spa
 ## Brand and content rules
 See `CLAUDE.md`. Source of truth for copy and visuals: the LinkedIn kit (`fusionfarm-linkedin`: `PAGE-COPY.md`, `build.py`).
 
+## Caching
+`tools/build.py` appends `?v=<content hash>` to every `/assets/` URL (HTML and CSS), so each deploy
+serves fresh CSS, JS, fonts and images even though `.htaccess` caches them hard. The hero map's
+SVG also carries its own fill/stroke attributes, so it draws correctly even with an old stylesheet.
+
 ## Checks before a deploy
 - Emails and the phone number never appear as plain text in HTML (assembled in `assets/js/site.js`).
 - No third-party requests except Turnstile when the form is enabled.
