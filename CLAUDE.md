@@ -14,9 +14,8 @@ See README for structure, deploy and the contact-form backend.
 - Services, in this order: Intelligence systems · Technology solutions · Research and analysis ·
   Due diligence and assessments · Special projects worldwide
 - Process: start with the decision → design the smallest system that answers it → ship into the
-  tools you already use, improve from real use. Proof line: "We run the same systems on our own
-  research, so we build what we'd use ourselves."
-- Industries (credibility, not the offer): commercial aviation aftermarket · hospitality & food ·
+  tools you already use, improve from real use. Proof line: "We build what we use. We use what we build."
+- Industries (credibility, not the offer; not shown as a section on the site): commercial aviation aftermarket · hospitality & food ·
   commercial real estate · equipment & industrial assets
 - Locations: Chicago (HQ), Minneapolis, Seattle — shown in that order everywhere.
 
@@ -43,4 +42,5 @@ See README for structure, deploy and the contact-form backend.
 - No plain-text email addresses or phone numbers in HTML; `site.js` assembles them from
   `data-mail` / `data-addr` / `data-tel`.
 - Domain prices and availability come from Pedro; unconfirmed names stay `listed: false`.
+- Public desks: research@ (projects, research & engagements), domains@, support@. pete@ is not shown.
 - No third-party scripts, fonts or trackers (Turnstile only when enabled).

@@ -31,8 +31,8 @@
 <a class="skip" href="#main">Skip to content</a>
 <header class="nav">
   <div class="wrap nav__inner">
-    <a class="brand" href="/" aria-label="Fusion Farm, home">
-      <img class="brand__mark" src="/assets/img/mark-white-62.png" alt="" width="26" height="31">
+    <a class="brand brand--nav" href="/" aria-label="Fusion Farm, home">
+      <img class="brand__mark" src="/assets/img/mark-white.png" alt="" width="40" height="48">
       <span class="brand__word">FUSION FARM</span>
     </a>
     <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="nav-links">
@@ -74,8 +74,7 @@
         <div class="field">
           <label for="f-topic">Topic</label>
           <select id="f-topic" name="topic" required>
-            <option value="project">Project or engagement</option>
-            <option value="research">Research</option>
+            <option value="project">Projects, research &amp; engagements</option>
             <option value="domains">Digital assets &amp; domains</option>
             <option value="support">Client support</option>
           </select>
@@ -101,12 +100,8 @@
 
     <aside class="desks" aria-label="Direct contacts">
       <h2 class="eyebrow mono">Or write to a desk directly</h2>
-      <a class="desk" data-mail="pete" href="#contact-form">
-        <span class="desk__label mono">Projects &amp; engagements</span>
-        <span class="desk__addr" data-addr="pete">Enable JavaScript to view</span>
-      </a>
       <a class="desk" data-mail="research" href="#contact-form">
-        <span class="desk__label mono">Research inquiries</span>
+        <span class="desk__label mono">Projects, research &amp; engagements</span>
         <span class="desk__addr" data-addr="research">Enable JavaScript to view</span>
       </a>
       <a class="desk" data-mail="domains" href="#contact-form">
@@ -131,26 +126,22 @@
 
 </main>
 <footer class="foot">
-  <div class="wrap foot__grid">
-    <div class="foot__brand">
-      <a class="brand" href="/" aria-label="Fusion Farm, home">
-        <img class="brand__mark" src="/assets/img/mark-white-62.png" alt="" width="26" height="31">
-        <span class="brand__word">FUSION FARM</span>
-      </a>
-      <p class="foot__tag">Intelligence, engineered.</p>
-      <p class="foot__cities mono"><span>Chicago <em>HQ</em></span> · Minneapolis · Seattle</p>
-      <p><a class="link" data-tel href="/contact/">Call us</a></p>
-    </div>
+  <div class="wrap foot__stack">
+    <a class="brand" href="/" aria-label="Fusion Farm, home">
+      <img class="brand__mark" src="/assets/img/mark-white-62.png" alt="" width="26" height="31">
+      <span class="brand__word">FUSION FARM</span>
+    </a>
+    <p class="foot__tag">Intelligence, engineered.</p>
     <dl class="foot__desks">
-      <div><dt class="mono">Projects &amp; engagements</dt><dd><a class="link" data-mail="pete" href="/contact/"><span data-addr="pete">Contact form</span></a></dd></div>
-      <div><dt class="mono">Research inquiries</dt><dd><a class="link" data-mail="research" href="/contact/"><span data-addr="research">Contact form</span></a></dd></div>
+      <div><dt class="mono">Projects, research &amp; engagements</dt><dd><a class="link" data-mail="research" href="/contact/"><span data-addr="research">Contact form</span></a></dd></div>
       <div><dt class="mono">Digital assets &amp; domains</dt><dd><a class="link" data-mail="domains" href="/contact/"><span data-addr="domains">Contact form</span></a></dd></div>
       <div><dt class="mono">Client support</dt><dd><a class="link" data-mail="support" href="/contact/"><span data-addr="support">Contact form</span></a></dd></div>
     </dl>
+    <p class="foot__phone"><a class="link" data-tel href="/contact/">Call us</a></p>
+    <p class="foot__cities mono"><span>Chicago <em>HQ</em></span> · Minneapolis · Seattle</p>
   </div>
   <div class="wrap foot__base">
-    <p>© <span data-year>2026</span> Fusion Farm LLC</p>
-    <p><a class="link" href="https://www.linkedin.com/company/fusionfarm-llc" rel="noopener">LinkedIn</a> · <a class="link" href="/privacy/">Privacy</a></p>
+    <a class="link" href="https://www.linkedin.com/company/fusionfarm-llc" rel="noopener">LinkedIn</a><span aria-hidden="true">·</span><a class="link" href="/privacy/">Privacy</a><span aria-hidden="true">·</span><span>© <span data-year>2026</span> Fusion Farm LLC</span>
   </div>
 </footer>
 <script src="/assets/js/site.js" defer></script>
