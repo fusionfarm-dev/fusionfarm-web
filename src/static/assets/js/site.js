@@ -50,14 +50,20 @@
   });
 
   // ---- contact form ----
+  // Asks /api/config.php whether the server-side mailer is configured. If it is,
+  // renders Cloudflare Turnstile and posts to /api/contact.php. If not (or PHP is
+  // unavailable), Send opens a pre-addressed email to the right desk instead.
   var form = document.getElementById("contact-form");
   if (!form) return;
   var status = form.querySelector(".form__status");
   var btn = form.querySelector("button[type=submit]");
   var topic = form.elements.topic;
   var msg = form.elements.message;
+  var tsBox = document.getElementById("ts");
+  var live = false;     // server mailer enabled
+  var tsWidget = null;
 
-  // prefill from links such as /contact/?topic=domains&about=bonghit.cloud
+  // prefill from links such as /contact/?topic=domains&about=sparekraft.com
   var q = new URLSearchParams(location.search);
   if (q.get("topic") && BOX[q.get("topic")]) topic.value = q.get("topic");
   if (q.get("about") && !msg.value) {
@@ -70,6 +76,25 @@
     status.className = "form__status" + (kind ? " form__status--" + kind : "");
   };
 
+  var cfgUrl = form.getAttribute("data-config");
+  if (cfgUrl && window.fetch) {
+    fetch(cfgUrl, { headers: { Accept: "application/json" }, cache: "no-store" })
+      .then(function (r) { return r.ok ? r.json() : {}; })
+      .then(function (cfg) {
+        if (!cfg || !cfg.enabled || !cfg.siteKey) return;
+        window.ffTurnstileReady = function () {
+          tsBox.hidden = false;
+          tsWidget = window.turnstile.render(tsBox, { sitekey: cfg.siteKey, action: "contact", theme: "dark" });
+          live = true;
+        };
+        var s = document.createElement("script");
+        s.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=ffTurnstileReady";
+        s.async = true;
+        document.head.appendChild(s);
+      })
+      .catch(function () { /* stay on the email fallback */ });
+  }
+
   form.addEventListener("submit", function (e) {
     e.preventDefault();
     if (form.elements.website.value) return; // honeypot tripped: drop silently
@@ -77,11 +102,12 @@
     var bad = null;
     ["name", "email", "message"].forEach(function (n) {
       var f = form.elements[n];
-      var ok = f.value.trim() !== "" && (n !== "email" || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.value.trim()));
+      var v = f.value.trim();
+      var ok = v !== "" && (n !== "email" || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) && (n !== "message" || v.length >= 10);
       f.setAttribute("aria-invalid", ok ? "false" : "true");
       if (!ok && !bad) bad = f;
     });
-    if (bad) { say("Please fill in your name, a valid email and your message.", "err"); bad.focus(); return; }
+    if (bad) { say("Please add your name, a valid email and a message of at least a sentence.", "err"); bad.focus(); return; }
 
     var data = {
       name: form.elements.name.value.trim(),
@@ -91,33 +117,33 @@
       message: msg.value.trim()
     };
     var label = topic.options[topic.selectedIndex].text;
-    var endpoint = form.getAttribute("data-endpoint");
+    var desk = addr(BOX[data.topic] || "pete");
 
-    if (!endpoint) {
-      // No form backend configured yet: open a pre-addressed email to the right desk.
+    if (!live) {
       var subject = "Website inquiry: " + label + (data.company ? " (" + data.company + ")" : "");
       var body = data.message + "\n\n— " + data.name + (data.company ? ", " + data.company : "") + "\n" + data.email;
-      location.href = "mailto:" + addr(BOX[data.topic] || "pete") +
-        "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+      location.href = "mailto:" + desk + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
       say("Your email app should open with the message ready to send.", "ok");
       return;
     }
 
     var fd = new FormData(form);
-    fd.set("_subject", "Website inquiry: " + label);
+    if (!fd.get("cf-turnstile-response")) { say("Please complete the security check.", "err"); return; }
     btn.disabled = true;
     say("Sending…");
-    fetch(endpoint, { method: "POST", body: fd, headers: { Accept: "application/json" } })
-      .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok && j.ok !== false, j: j }; }); })
+    fetch(form.getAttribute("action"), { method: "POST", body: fd, headers: { Accept: "application/json" } })
+      .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok && j.ok === true, j: j }; }); })
       .then(function (res) {
-        if (!res.ok) throw new Error((res.j && res.j.error) || "send failed");
+        if (!res.ok) throw new Error((res.j && res.j.message) || "");
         form.reset();
         say("Thanks. Your message is with our " + label.toLowerCase() + " desk.", "ok");
-        if (window.turnstile) window.turnstile.reset();
       })
-      .catch(function () {
-        say("That didn't send. Please email " + addr(BOX[data.topic] || "pete") + " directly.", "err");
+      .catch(function (err) {
+        say((err && err.message) ? err.message + " (" + desk + ")" : "That didn't send. Please email " + desk + " directly.", "err");
       })
-      .then(function () { btn.disabled = false; });
+      .then(function () {
+        btn.disabled = false;
+        if (window.turnstile && tsWidget !== null) window.turnstile.reset(tsWidget);
+      });
   });
 })();

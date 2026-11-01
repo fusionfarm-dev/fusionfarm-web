@@ -55,7 +55,7 @@
 
 <section class="section section--tight">
   <div class="wrap contact__grid">
-    <form class="form" id="contact-form" method="post" action="/contact/" data-endpoint="" novalidate>
+    <form class="form" id="contact-form" method="post" action="/api/contact.php" data-config="/api/config.php" novalidate>
       <div class="form__row">
         <div class="field">
           <label for="f-name">Name</label>
@@ -90,7 +90,7 @@
         <label for="f-website">Website</label>
         <input id="f-website" name="website" type="text" tabindex="-1" autocomplete="off">
       </div>
-      
+      <div class="ts" id="ts" hidden></div>
       <div class="form__foot">
         <button class="btn" type="submit">Send</button>
         <p class="form__note">We use what you send only to reply. <a class="link" href="/privacy/">Privacy</a></p>

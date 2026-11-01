@@ -2,13 +2,7 @@
   "origin": "https://fusionfarm.net",
   "name": "Fusion Farm LLC",
   "linkedin": "https://www.linkedin.com/company/fusionfarm-llc",
-
-  "form_endpoint": "",
-  "turnstile_sitekey": "",
-
   "_notes": {
-    "form_endpoint": "URL the /contact form POSTs to (the Cloudflare Worker in worker/, or a Formspree form URL). Leave empty and the form opens a pre-addressed email instead.",
-    "turnstile_sitekey": "Cloudflare Turnstile site key. Leave empty to skip the widget (the honeypot still runs).",
     "linkedin": "Company page, confirmed by Pedro 2026-11-01."
   }
 }

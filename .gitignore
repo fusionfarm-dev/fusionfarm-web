@@ -1,4 +1,5 @@
 __pycache__/
 .DS_Store
-worker/.wrangler/
 node_modules/
+# contact form secrets: never commit
+fusionfarm-contact-config.php
