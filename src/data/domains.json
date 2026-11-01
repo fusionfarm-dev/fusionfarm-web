@@ -1,0 +1,44 @@
+[
+  {
+    "domain": "bonghit.cloud",
+    "category": "Cannabis",
+    "pitch": "A short, memorable .cloud name for a cannabis brand, delivery service or lounge. Sold with a ready-to-launch, sound-on landing page.",
+    "price": "$420",
+    "terms": "Buy now via Escrow.com (buyer pays the $50 fee) or direct",
+    "url": "https://bonghit.cloud",
+    "listed": false,
+    "teaser": true,
+    "_note": "Hidden 2026-11-01 per Pedro; set listed: true to show again."
+  },
+  {
+    "domain": "damnyum.com",
+    "category": "Food & culinary",
+    "pitch": "A punchy, memorable .com for a food, snack or culinary brand.",
+    "price": null,
+    "terms": "",
+    "url": "https://damnyum.com",
+    "listed": false,
+    "teaser": true,
+    "_note": "Hidden 2026-11-01 per Pedro; set listed: true to show again."
+  },
+  {
+    "domain": "rotablesales.com",
+    "category": "Commercial aviation",
+    "pitch": "An exact-match .com for the commercial aviation aftermarket.",
+    "price": null,
+    "terms": "",
+    "url": "https://rotablesales.com",
+    "listed": false,
+    "teaser": true
+  },
+  {
+    "domain": "sparekraft.com",
+    "category": "Commercial aviation",
+    "pitch": "A brandable .com for aviation spares, MRO or logistics.",
+    "price": null,
+    "terms": "",
+    "url": "https://sparekraft.com",
+    "listed": true,
+    "teaser": true
+  }
+]
