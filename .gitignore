@@ -3,3 +3,4 @@ __pycache__/
 node_modules/
 # contact form secrets: never commit
 fusionfarm-contact-config.php
+tools/.hero-layer.*

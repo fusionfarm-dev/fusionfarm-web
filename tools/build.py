@@ -78,52 +78,62 @@ PULSES = [("CHI", "NYC"), ("NYC", "LON"), ("MSP", "CHI"), ("SEA", "SFO"), ("CHI"
 LON0, LAT_TOP, LAT_BOT, LON1 = -132.0, 73.0, -47.0, 160.0  # crop: Alaska to Sydney
 
 
+LONGHAUL = [("CHI", "LON"), ("CHI", "FRA"), ("CHI", "DXB"), ("CHI", "GRU"), ("MSP", "LIS"), ("SEA", "LON"),
+            ("NYC", "DXB"), ("LON", "SIN"), ("FRA", "HKG"), ("DXB", "SIN"), ("LON", "JNB"), ("MIA", "MAD")]
+
+
 def world_svg():
     X = lambda lon: lon - LON0
     Y = lambda lat: LAT_TOP - lat
     w, h = LON1 - LON0, LAT_TOP - LAT_BOT
     P = {n: (X(lo), Y(la)) for n, (lo, la) in NODES.items()}
-    dots = json.loads((SRC / "data/world-dots.json").read_text())
-    land = "".join(f"M{X(lo):.1f} {Y(la):.1f}h0" for lo, la in dots if LON0 <= lo <= LON1 and LAT_BOT <= la <= LAT_TOP)
-    hubby = lambda a, b: a in HUBS or b in HUBS
-    def curve(x1, y1, x2, y2):
+
+    def curve(x1, y1, x2, y2, lift=.16, cap=9.0):
         # quadratic bow, bending poleward like a great-circle route on a flat map
         dx, dy = x2 - x1, y2 - y1
         d = math.hypot(dx, dy) or 1
         nx, ny = -dy / d, dx / d
         my = (y1 + y2) / 2
-        pole = -1 if Y(0) > my else 1          # north of the equator bows up (smaller y)
+        pole = -1 if Y(0) > my else 1
         if ny * pole < 0:
             nx, ny = -nx, -ny
-        k = min(9.0, 0.16 * d)
-        cx, cy = (x1 + x2) / 2 + nx * k, my + ny * k
-        return f"M{x1:.1f} {y1:.1f}Q{cx:.1f} {cy:.1f} {x2:.1f} {y2:.1f}"
+        k = min(cap, lift * d)
+        return f"M{x1:.1f} {y1:.1f}Q{(x1 + x2) / 2 + nx * k:.1f} {my + ny * k:.1f} {x2:.1f} {y2:.1f}"
+
     seg = lambda a, b: curve(P[a][0], P[a][1], P[b][0], P[b][1])
-    mesh = "".join(seg(a, b) for a, b in EDGES if not hubby(a, b))
-    hubmesh = "".join(seg(a, b) for a, b in EDGES if hubby(a, b))
+    arc = lambda a, b: curve(P[a][0], P[a][1], P[b][0], P[b][1], lift=.34, cap=26.0)
+    mesh = "".join(seg(a, b) for a, b in EDGES)
+    longs = "".join(arc(a, b) for a, b in LONGHAUL)
     stubs = "".join(curve(P[n][0], P[n][1], 0 if d < 0 else w, Y(la)) for n, d, la in STUBS)
     out = [f'<svg class="world" viewBox="0 0 {w:.0f} {h:.0f}" role="img" '
            f'aria-label="Global network map: Chicago headquarters with Minneapolis and Seattle offices, '
            f'connected to a worldwide network" preserveAspectRatio="xMidYMid meet">',
-           '<defs><linearGradient id="stubL" x1="0" x2="1"><stop offset="0" stop-color="#7FB8FF" stop-opacity="0"/>'
-           '<stop offset="1" stop-color="#7FB8FF" stop-opacity=".35"/></linearGradient></defs>',
-           f'<path class="world__land" d="{land}"/>',
+           '<defs><radialGradient id="nodeg"><stop offset="0" stop-color="#FF6A4D" stop-opacity=".75"/>'
+           '<stop offset="1" stop-color="#FF3B2F" stop-opacity="0"/></radialGradient>'
+           '<radialGradient id="hubg"><stop offset="0" stop-color="#FF8A6B" stop-opacity=".9"/>'
+           '<stop offset=".45" stop-color="#FF3B2F" stop-opacity=".35"/><stop offset="1" stop-color="#FF3B2F" stop-opacity="0"/></radialGradient></defs>',
+           f'<image href="/assets/img/hero-earth.webp" x="0" y="0" width="{w:.0f}" height="{h:.0f}" preserveAspectRatio="none"/>',
            f'<path class="net__stub" d="{stubs}"/>',
+           f'<path class="net__glow" d="{mesh}{longs}"/>',
            f'<path class="net__mesh" d="{mesh}"/>',
-           f'<path class="net__mesh net__mesh--hub" d="{hubmesh}"/>',
+           f'<path class="net__long" d="{longs}"/>',
            '<g class="net__pulses">']
     for a, b in PULSES:
         out.append(f'<path class="pulse" pathLength="1" d="{seg(a, b)}"/>')
+    for a, b in LONGHAUL[:8]:
+        out.append(f'<path class="pulse pulse--long" pathLength="1" d="{arc(a, b)}"/>')
     out.append('</g><g class="net__nodes">')
     for n, (x, y) in P.items():
         if n in HUBS:
-            r = 4.0 if n == "CHI" else 2.7
-            out.append(f'<circle class="glow{" glow--hq" if n == "CHI" else ""}" cx="{x:.1f}" cy="{y:.1f}" r="{r}"/>')
-            out.append(f'<circle class="node node--hub" cx="{x:.1f}" cy="{y:.1f}" r=".95"/>')
-        else:
-            out.append(f'<circle class="node__halo" cx="{x:.1f}" cy="{y:.1f}" r="1.9"/>')
-            out.append(f'<circle class="node" cx="{x:.1f}" cy="{y:.1f}" r=".8"/>')
-    for n, dx, dy, anchor in (("CHI", 2.0, 5.0, "start"), ("MSP", -1.2, -2.8, "end"), ("SEA", 1.4, -2.8, "start")):
+            continue
+        out.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="2.2" fill="url(#nodeg)"/>')
+        out.append(f'<circle class="node" cx="{x:.1f}" cy="{y:.1f}" r=".55"/>')
+    for n in HUBS:                       # hubs last so they sit on top
+        x, y = P[n]
+        r = 5.2 if n == "CHI" else 3.8
+        out.append(f'<circle class="hubglow{" hubglow--hq" if n == "CHI" else ""}" cx="{x:.1f}" cy="{y:.1f}" r="{r}" fill="url(#hubg)"/>')
+        out.append(f'<circle class="node node--hub" cx="{x:.1f}" cy="{y:.1f}" r="{1.15 if n == "CHI" else .95}"/>')
+    for n, dx, dy, anchor in (("CHI", 2.2, 5.4, "start"), ("MSP", -1.4, -3.0, "end"), ("SEA", 1.4, -3.0, "start")):
         x, y = P[n]
         out.append(f'<text class="hublabel" x="{x + dx:.1f}" y="{y + dy:.1f}" text-anchor="{anchor}">{n}</text>')
     out.append("</g></svg>")
