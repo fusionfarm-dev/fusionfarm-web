@@ -168,8 +168,9 @@ def jsonld():
 def layout(page):
     path, title, desc = page["path"], page["title"], page["desc"]
     canonical = ORIGIN + path
+    current = ' aria-current="page"'
     nav = "".join(
-        f'<a href="{href}"{" aria-current=\"page\"" if href == path else ""}>{label}</a>' for href, label in NAV)
+        f'<a href="{href}"{current if href == path else ""}>{label}</a>' for href, label in NAV)
     robots = '<meta name="robots" content="noindex">' if page.get("noindex") else ""
     canon = "" if page.get("noindex") else f'<link rel="canonical" href="{canonical}">'
     extra = page.get("head", "")
