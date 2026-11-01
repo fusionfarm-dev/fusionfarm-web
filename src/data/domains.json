@@ -6,8 +6,9 @@
     "price": "$420",
     "terms": "Buy now via Escrow.com (buyer pays the $50 fee) or direct",
     "url": "https://bonghit.cloud",
-    "listed": true,
-    "teaser": true
+    "listed": false,
+    "teaser": true,
+    "_note": "Hidden 2026-11-01 per Pedro; set listed: true to show again."
   },
   {
     "domain": "damnyum.com",
@@ -16,8 +17,9 @@
     "price": null,
     "terms": "",
     "url": "https://damnyum.com",
-    "listed": true,
-    "teaser": true
+    "listed": false,
+    "teaser": true,
+    "_note": "Hidden 2026-11-01 per Pedro; set listed: true to show again."
   },
   {
     "domain": "rotablesales.com",
@@ -27,8 +29,7 @@
     "terms": "",
     "url": "https://rotablesales.com",
     "listed": false,
-    "teaser": true,
-    "_hold": "Hidden until Pedro confirms it is for sale (it is in use as the SpareKraft inventory front door)."
+    "teaser": true
   },
   {
     "domain": "sparekraft.com",
@@ -37,8 +38,7 @@
     "price": null,
     "terms": "",
     "url": "https://sparekraft.com",
-    "listed": false,
-    "teaser": true,
-    "_hold": "Hidden until Pedro confirms it is for sale (it is the active SpareKraft brokerage brand)."
+    "listed": true,
+    "teaser": true
   }
 ]
