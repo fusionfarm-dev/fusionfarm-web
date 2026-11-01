@@ -73,7 +73,7 @@ def orbit_svg():
         out.append(f'<path d="{"".join(segs)}" stroke="#2A3746" stroke-width="1.6" stroke-linecap="round" '
                    f'stroke-opacity="{1 - b / 5:.1f}"/>')
     # each data point travels around its own orbit (SMIL animateMotion; paused for reduced motion in site.js)
-    for ang, col, lab, t, dur in [(-28, JADE, "SYSTEMS", 0.0, 8), (28, SIGNAL, "DATA", 0.5, 10.5), (90, TEXT, "FIELD", 0.0, 13)]:
+    for ang, col, lab, t, dur in [(-28, JADE, "SYSTEMS", 0.0, 6), (28, SIGNAL, "DATA", 0.5, 8), (90, TEXT, "FIELD", 0.0, 10)]:
         rx, ry = 235, 82
         out.append(f'<ellipse cx="{cx}" cy="{cy}" rx="{rx}" ry="{ry}" fill="none" stroke="{col}" '
                    f'stroke-opacity=".55" stroke-width="1.4" transform="rotate({ang} {cx} {cy})"/>')
