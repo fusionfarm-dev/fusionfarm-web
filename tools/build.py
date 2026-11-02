@@ -193,7 +193,7 @@ def layout(page):
   <div class="wrap nav__inner">
     <a class="brand brand--nav" href="/" aria-label="Fusion Farm, home">
       <img class="brand__mark" src="/assets/img/mark-white.png" alt="" width="52" height="62">
-      <span class="brand__text"><img class="brand__word" src="/assets/img/wordmark.svg" alt="" width="280" height="21"><span class="brand__cities mono">Chicago · Minneapolis · Seattle</span><span class="brand__tag">Intelligence, engineered.</span></span>
+      <span class="brand__text"><img class="brand__word" src="/assets/img/wordmark.svg" alt="" width="280" height="21"><span class="brand__cities mono">Chicago · Minneapolis · Seattle</span></span>
     </a>
     <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="nav-links">
       <span class="sr">Menu</span><span class="bar"></span><span class="bar"></span>
