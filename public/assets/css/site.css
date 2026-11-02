@@ -168,6 +168,12 @@ ul,ol{margin:0;padding:0;list-style:none}
 .proof{margin-top:clamp(24px,3vw,36px);font-size:clamp(18px,1.8vw,21px);font-weight:700;color:var(--text);padding-left:18px;border-left:2px solid var(--jade);max-width:52ch}
 
 /* fusion */
+/* tonal panel band, with an energy-core glow anchored behind the orbit graphic */
+.fusion{position:relative;isolation:isolate;overflow:hidden;background:linear-gradient(180deg,#0F161E 0%,#0D141B 100%);
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.fusion__art{position:relative}
+.fusion__art::before{content:"";position:absolute;inset:-28% -22%;z-index:-1;pointer-events:none;
+  background:radial-gradient(closest-side,rgba(94,214,170,.20) 0%,rgba(94,214,170,.10) 30%,rgba(127,184,255,.06) 58%,rgba(127,184,255,0) 100%)}
 .fusion__grid{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(32px,5vw,72px);align-items:center}
 .orbit{width:100%;height:auto}
 .orbit__label{font-family:var(--mono);font-size:13px;letter-spacing:2px}
