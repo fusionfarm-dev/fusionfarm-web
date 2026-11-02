@@ -197,6 +197,9 @@ ul,ol{margin:0;padding:0;list-style:none}
 .pagehead .wrap{padding-top:clamp(48px,7vw,88px);padding-bottom:clamp(36px,4.5vw,56px)}
 .pagehead h1{font-size:clamp(40px,6vw,72px);letter-spacing:-.028em;margin-top:20px}
 .pagehead h1:first-child{margin-top:0}
+.backlink{display:inline-flex;align-items:center;gap:8px;margin-bottom:22px;padding:8px 16px;border:1px solid var(--line-2);border-radius:999px;
+  background:rgba(18,24,33,.6);color:var(--text-2);font-weight:600;font-size:14px;text-decoration:none;transition:color .2s,border-color .2s,background .2s}
+.backlink:hover{color:var(--text);border-color:var(--jade);background:rgba(94,214,170,.08)}
 .pagehead__sub{color:var(--text-2);font-size:clamp(17px,1.6vw,20px);margin-top:18px;max-width:56ch}
 .pagehead--404 .wrap{padding-bottom:clamp(96px,12vw,160px)}
 
