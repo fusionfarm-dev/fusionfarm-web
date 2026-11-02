@@ -74,13 +74,14 @@ def orbit_svg():
         out.append(f'<path d="{"".join(segs)}" stroke="#2A3746" stroke-width="1.6" stroke-linecap="round" '
                    f'stroke-opacity="{1 - b / 5:.1f}"/>')
     # each data point travels around its own orbit (SMIL animateMotion; paused for reduced motion in site.js)
+    points = []   # drawn after the core so the electrons pass over the FF mark
     for ang, col, lab, t, dur in [(-28, JADE, "SYSTEMS", 0.0, 6), (28, SIGNAL, "DATA", 0.5, 8), (90, TEXT, "FIELD", 0.0, 10)]:
         rx, ry = 235, 82
         out.append(f'<ellipse cx="{cx}" cy="{cy}" rx="{rx}" ry="{ry}" fill="none" stroke="{col}" '
                    f'stroke-opacity=".55" stroke-width="1.4" transform="rotate({ang} {cx} {cy})"/>')
         orbit = (f"M{cx + rx} {cy}A{rx} {ry} 0 1 1 {cx - rx} {cy}A{rx} {ry} 0 1 1 {cx + rx} {cy}")
         tx, anchor = (-14, "end") if lab == "DATA" else (14, "start")
-        out.append(f'<g transform="rotate({ang} {cx} {cy})"><g class="orbit__point">'
+        points.append(f'<g transform="rotate({ang} {cx} {cy})"><g class="orbit__point">'
                    f'<circle class="orbit__halo" r="14" fill="{col}" fill-opacity=".14"/>'
                    f'<circle r="5.5" fill="{col}"/>'
                    f'<text transform="rotate({-ang})" x="{tx}" y="-12" text-anchor="{anchor}" class="orbit__label" fill="{col}">{lab}</text>'
@@ -89,6 +90,7 @@ def orbit_svg():
     out.append(f'<circle cx="{cx}" cy="{cy}" r="96" fill="{JADE}" fill-opacity=".06"/>')
     out.append(f'<circle cx="{cx}" cy="{cy}" r="62" fill="#0B0F14" stroke="{JADE}" stroke-opacity=".35"/>')
     out.append(f'<image href="/assets/img/mark-white.png" x="{cx - 38}" y="{cy - 46}" width="77" height="92"/>')
+    out.extend(points)
     out.append("</svg>")
     return "".join(out)
 
