@@ -33,13 +33,13 @@
   {
     "domain": "stonyzone.com",
     "category": "Cannabis",
-    "pitch": "A laid-back, memorable .com for a cannabis brand, dispensary, lounge or media channel. Interactive landing page in progress.",
+    "pitch": "A laid-back, memorable .com for a cannabis brand, dispensary, lounge or media channel. Includes an interactive landing page.",
     "price": "$420",
     "terms": "Buy direct by email",
-    "url": null,
+    "url": "https://stonyzone.com",
     "listed": true,
     "teaser": true,
-    "_note": "Added 2026-11-01 per Pedro; landing page in process. Set url to https://stonyzone.com once it is live with a valid certificate."
+    "_note": "Site live 2026-11-02 per Pedro; View link enabled."
   },
   {
     "domain": "rotablesales.com",
