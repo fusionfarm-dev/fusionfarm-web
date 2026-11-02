@@ -30,7 +30,7 @@ MAP_W, MAP_H = 450, 253
 OFFICES = [  # (code, x, y, label dx, label dy, anchor)
     ("SEA", 33.3, 87.5, -2.4, -3.2, "end"),
     ("MSP", 57.5, 92.6, -0.5, -4.0, "middle"),
-    ("CHI", 63.2, 97.6, 2.6, 4.6, "start"),
+    ("ORD", 63.2, 97.6, 1.6, -3.4, "start"),   # label sits up-right of the dot, clear of the NYC hub
 ]
 
 

@@ -41,7 +41,7 @@ See README for structure, deploy and the contact-form backend.
 - The atomic mark (`assets/img/mark-white.png`, from the GitHub org avatar) always sits next to
   the wordmark. Do not redraw or recolor it. Lockups for other uses: `brand/fusionfarm-lockup-*.png`.
 - Hero map: supplied network image (`assets/img/hero-map.webp`, off-edge arcs painted out) with green
-  traced lines (`src/data/hero-lines.json`) and CHI/MSP/SEA office dots drawn live on top.
+  traced lines (`src/data/hero-lines.json`) and ORD/MSP/SEA office dots (airport codes; ORD = Chicago) drawn live on top.
   The source image is stock: confirm a licence before launch.
 - "How we work" background: supplied server-rack photo (`assets/img/rack-bg.webp`, placeholder;
   stock image, licence or replace before launch).
