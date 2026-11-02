@@ -164,6 +164,7 @@ def layout(page):
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{esc(title)}</title>
 <meta name="description" content="{esc(desc)}">
+<meta name="author" content="fusionfarm.net">
 {canon}{robots}
 <meta name="theme-color" content="#0B0F14">
 <meta name="color-scheme" content="dark">
@@ -172,7 +173,7 @@ def layout(page):
 <meta property="og:title" content="{esc(page.get('og_title', title))}">
 <meta property="og:description" content="{esc(desc)}">
 <meta property="og:url" content="{canonical}">
-<meta property="og:image" content="{ORIGIN}/assets/img/og-fusionfarm-1200x627.jpg">
+<meta property="og:image" content="{ORIGIN}/assets/img/og-fusionfarm-v2-1200x627.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="627">
 <meta property="og:image:alt" content="Fusion Farm — Intelligence, engineered.">
