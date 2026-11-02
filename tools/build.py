@@ -164,6 +164,7 @@ def layout(page):
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{esc(title)}</title>
 <meta name="description" content="{esc(desc)}">
+<meta name="author" content="fusionfarm.net">
 {canon}{robots}
 <meta name="theme-color" content="#0B0F14">
 <meta name="color-scheme" content="dark">
