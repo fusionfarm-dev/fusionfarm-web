@@ -16,8 +16,8 @@ See README for structure, deploy and the contact-form backend.
   Due diligence and assessments · Special projects worldwide
 - Process: start with the decision → design the smallest system that answers it → ship into the
   tools you already use, improve from real use. Proof line: "We build what we use. We use what we build."
-- Industries (credibility, not the offer; not shown as a section on the site): commercial aviation aftermarket · hospitality & food ·
-  commercial real estate · equipment & industrial assets
+- Industries (credibility, not the offer; not shown as a section on the site): commercial aviation aftermarket · oil & gas ·
+  hospitality & food · commercial real estate · equipment & industrial assets
 - Locations: Chicago, Minneapolis, Seattle, in that order, set centered under the wordmark in header
   and footer. No "HQ" label on the site (Chicago stays first; JSON-LD lists all three).
 
