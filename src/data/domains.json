@@ -6,9 +6,8 @@
     "price": "$420",
     "terms": "Buy now via Escrow.com (buyer pays the $50 fee) or direct",
     "url": "https://bonghit.cloud",
-    "listed": false,
-    "teaser": true,
-    "_note": "Hidden 2026-11-01 per Pedro; set listed: true to show again."
+    "listed": true,
+    "teaser": true
   },
   {
     "domain": "damnyum.com",
