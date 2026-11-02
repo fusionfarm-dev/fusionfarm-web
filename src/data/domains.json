@@ -10,25 +10,15 @@
     "teaser": true
   },
   {
-    "domain": "damnyum.com",
-    "category": "Food & culinary",
-    "pitch": "A punchy, memorable .com for a food, snack or culinary brand.",
-    "price": null,
-    "terms": "",
-    "url": "https://damnyum.com",
-    "listed": false,
+    "domain": "stonyzone.com",
+    "category": "Cannabis",
+    "pitch": "A laid-back, memorable .com for a cannabis brand, dispensary, lounge or media channel. Interactive landing page in progress.",
+    "price": "$420",
+    "terms": "Buy direct by email",
+    "url": null,
+    "listed": true,
     "teaser": true,
-    "_note": "Hidden 2026-11-01 per Pedro; set listed: true to show again."
-  },
-  {
-    "domain": "rotablesales.com",
-    "category": "Commercial aviation",
-    "pitch": "An exact-match .com for the commercial aviation aftermarket.",
-    "price": null,
-    "terms": "",
-    "url": "https://rotablesales.com",
-    "listed": false,
-    "teaser": true
+    "_note": "Added 2026-11-01 per Pedro; landing page in process. Set url to https://stonyzone.com once it is live with a valid certificate."
   },
   {
     "domain": "sparekraft.com",
@@ -38,6 +28,27 @@
     "terms": "",
     "url": "https://sparekraft.com",
     "listed": true,
+    "teaser": true
+  },
+  {
+    "domain": "damnyum.com",
+    "category": "Food & culinary",
+    "pitch": "A punchy, memorable .com for a food, snack or culinary brand.",
+    "price": null,
+    "terms": "",
+    "url": null,
+    "listed": true,
+    "teaser": true,
+    "_note": "Listed 2026-11-01 per Pedro; site TBD (no View link until url is set). Price not confirmed, shows Make an offer."
+  },
+  {
+    "domain": "rotablesales.com",
+    "category": "Commercial aviation",
+    "pitch": "An exact-match .com for the commercial aviation aftermarket.",
+    "price": null,
+    "terms": "",
+    "url": "https://rotablesales.com",
+    "listed": false,
     "teaser": true
   }
 ]

@@ -102,6 +102,9 @@ def domain_card(d, head="h3"):
     price = esc(d["price"]) if d.get("price") else "Make an offer"
     terms = f'<p class="asset__terms">{esc(d["terms"])}</p>' if d.get("terms") else ""
     subj = f"/contact/?topic=domains&amp;about={esc(d['domain'])}"
+    view = (f'<a class="link" href="{esc(d["url"])}" rel="noopener" target="_blank">View<span class="sr"> {esc(d["domain"])} '
+            f'(opens in a new tab)</span> <span aria-hidden="true">↗</span></a>' if d.get("url")
+            else '<span class="asset__soon mono">Site coming soon</span>')
     return f"""<article class="asset">
   <p class="asset__cat mono">{esc(d['category'])}</p>
   <{head} class="asset__name">{esc(d['domain'])}</{head}>
@@ -110,7 +113,7 @@ def domain_card(d, head="h3"):
     <p class="asset__price">{price}</p>
     {terms}
     <div class="asset__links">
-      <a class="link" href="{esc(d['url'])}" rel="noopener" target="_blank">View<span class="sr"> {esc(d['domain'])} (opens in a new tab)</span> <span aria-hidden="true">↗</span></a>
+      {view}
       <a class="link" href="{subj}">Inquire<span class="sr"> about {esc(d['domain'])}</span> <span aria-hidden="true">→</span></a>
     </div>
   </div>
