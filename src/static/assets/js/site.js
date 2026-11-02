@@ -31,6 +31,14 @@
     el.textContent = String(new Date().getFullYear());
   });
 
+  // ---- back links: return to the previous page on this site, else go home ----
+  document.querySelectorAll("[data-back]").forEach(function (el) {
+    el.addEventListener("click", function (e) {
+      var ref = document.referrer;
+      if (ref && ref.indexOf(location.origin) === 0 && history.length > 1) { e.preventDefault(); history.back(); }
+    });
+  });
+
   // ---- fusion orbit: data points travel their orbits; hold still for reduced motion ----
   var orbitSvg = document.querySelector(".orbit");
   if (orbitSvg && window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches && orbitSvg.pauseAnimations) {
