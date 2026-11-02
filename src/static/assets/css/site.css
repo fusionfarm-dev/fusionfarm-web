@@ -48,9 +48,9 @@ ul,ol{margin:0;padding:0;list-style:none}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 22px;border-radius:999px;
   background:var(--jade);color:#06231A;font-weight:800;font-size:15px;text-decoration:none;border:1px solid var(--jade);
   cursor:pointer;font-family:var(--sans);transition:background .2s,box-shadow .2s,transform .2s}
-.btn:hover{background:#7BE3BD;box-shadow:0 0 0 6px rgba(94,214,170,.12)}
-.btn--ghost{background:transparent;color:var(--text);border-color:var(--line-2)}
-.btn--ghost:hover{background:var(--ink-2);border-color:var(--signal);box-shadow:none}
+.btn:hover{background:#7BE3BD;box-shadow:0 0 0 5px rgba(94,214,170,.16),0 0 22px rgba(94,214,170,.3)}
+.btn--ghost{background:transparent;color:var(--text);border-color:rgba(94,214,170,.6)}
+.btn--ghost:hover{background:rgba(94,214,170,.12);border-color:var(--jade);color:#fff;box-shadow:0 0 0 4px rgba(94,214,170,.14),0 0 18px rgba(94,214,170,.22)}
 .btn--sm{min-height:40px;padding:0 16px;font-size:14px}
 
 .rule{height:2px;background:linear-gradient(90deg,transparent,var(--jade) 30%,var(--signal) 70%,transparent);opacity:.9}
@@ -72,11 +72,13 @@ ul,ol{margin:0;padding:0;list-style:none}
 .nav__links>a:not(.btn):hover,.nav__links>a[aria-current]{color:var(--text)}
 @media (min-width:861px){
   .nav__links{gap:10px}
-  .nav__links>a:not(.btn){padding:9px 18px;border:1px solid var(--line-2);border-radius:999px;background:rgba(18,24,33,.6);transition:color .2s,border-color .2s,background .2s}
-  .nav__links>a:not(.btn):hover,.nav__links>a[aria-current]{border-color:var(--jade);background:rgba(94,214,170,.08)}
+  .nav__links>a:not(.btn){padding:9px 18px;border:1px solid rgba(94,214,170,.55);border-radius:999px;background:rgba(18,24,33,.6);transition:color .2s,border-color .2s,background .2s,box-shadow .2s}
+  .nav__links>a:not(.btn):hover{border-color:var(--jade);background:rgba(94,214,170,.12);color:#fff;box-shadow:0 0 0 4px rgba(94,214,170,.14),0 0 18px rgba(94,214,170,.22)}
+  .nav__links>a[aria-current]{border-color:var(--jade);background:rgba(94,214,170,.08)}
   .nav__links .btn{margin-left:6px}
 }
-.nav__toggle{display:none;background:none;border:1px solid var(--line-2);border-radius:10px;width:44px;height:44px;padding:0;cursor:pointer;flex-direction:column;align-items:center;justify-content:center;gap:6px}
+.nav__toggle{display:none;background:none;border:1px solid rgba(94,214,170,.6);transition:border-color .2s,background .2s,box-shadow .2s;border-radius:10px;width:44px;height:44px;padding:0;cursor:pointer;flex-direction:column;align-items:center;justify-content:center;gap:6px}
+.nav__toggle:hover,.nav__toggle[aria-expanded="true"]{border-color:var(--jade);background:rgba(94,214,170,.12);box-shadow:0 0 0 4px rgba(94,214,170,.14),0 0 18px rgba(94,214,170,.22)}
 .nav__toggle .bar{display:block;width:18px;height:2px;background:var(--text);border-radius:2px;transition:transform .2s}
 .nav__toggle[aria-expanded="true"] .bar:first-of-type{transform:translateY(4px) rotate(45deg)}
 .nav__toggle[aria-expanded="true"] .bar:last-of-type{transform:translateY(-4px) rotate(-45deg)}
@@ -197,9 +199,9 @@ ul,ol{margin:0;padding:0;list-style:none}
 .pagehead .wrap{padding-top:clamp(48px,7vw,88px);padding-bottom:clamp(36px,4.5vw,56px)}
 .pagehead h1{font-size:clamp(40px,6vw,72px);letter-spacing:-.028em;margin-top:20px}
 .pagehead h1:first-child{margin-top:0}
-.backlink{display:inline-flex;align-items:center;gap:8px;margin-bottom:22px;padding:8px 16px;border:1px solid var(--line-2);border-radius:999px;
-  background:rgba(18,24,33,.6);color:var(--text-2);font-weight:600;font-size:14px;text-decoration:none;transition:color .2s,border-color .2s,background .2s}
-.backlink:hover{color:var(--text);border-color:var(--jade);background:rgba(94,214,170,.08)}
+.backlink{display:inline-flex;align-items:center;gap:8px;margin-bottom:22px;padding:8px 16px;border:1px solid rgba(94,214,170,.55);border-radius:999px;
+  background:rgba(18,24,33,.6);color:var(--text-2);font-weight:600;font-size:14px;text-decoration:none;transition:color .2s,border-color .2s,background .2s,box-shadow .2s}
+.backlink:hover{color:#fff;border-color:var(--jade);background:rgba(94,214,170,.12);box-shadow:0 0 0 4px rgba(94,214,170,.14),0 0 18px rgba(94,214,170,.22)}
 .pagehead__sub{color:var(--text-2);font-size:clamp(17px,1.6vw,20px);margin-top:18px;max-width:56ch}
 .pagehead--404 .wrap{padding-bottom:clamp(96px,12vw,160px)}
 
