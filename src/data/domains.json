@@ -1,26 +1,5 @@
 [
   {
-    "domain": "bonghit.cloud",
-    "category": "Cannabis",
-    "pitch": "A short, memorable .cloud name for a cannabis brand, delivery service or lounge. Sold with a ready-to-launch, sound-on landing page.",
-    "price": "$420",
-    "terms": "Buy now via Escrow.com (buyer pays the $50 fee) or direct",
-    "url": "https://bonghit.cloud",
-    "listed": true,
-    "teaser": true
-  },
-  {
-    "domain": "stonyzone.com",
-    "category": "Cannabis",
-    "pitch": "A laid-back, memorable .com for a cannabis brand, dispensary, lounge or media channel. Interactive landing page in progress.",
-    "price": "$420",
-    "terms": "Buy direct by email",
-    "url": null,
-    "listed": true,
-    "teaser": true,
-    "_note": "Added 2026-11-01 per Pedro; landing page in process. Set url to https://stonyzone.com once it is live with a valid certificate."
-  },
-  {
     "domain": "sparekraft.com",
     "category": "Commercial aviation",
     "pitch": "An aviation aftermarket domain and brand concept for a business in aircraft parts, logistics, or related services.",
@@ -40,6 +19,27 @@
     "listed": true,
     "teaser": true,
     "_note": "Listed 2026-11-01 per Pedro; site TBD (no View link until url is set). Price not confirmed, shows Make an offer."
+  },
+  {
+    "domain": "bonghit.cloud",
+    "category": "Cannabis",
+    "pitch": "A short, memorable .cloud name for a cannabis brand, delivery service or lounge. Sold with a ready-to-launch, sound-on landing page.",
+    "price": "$420",
+    "terms": "Buy now via Escrow.com (buyer pays the $50 fee) or direct",
+    "url": "https://bonghit.cloud",
+    "listed": true,
+    "teaser": true
+  },
+  {
+    "domain": "stonyzone.com",
+    "category": "Cannabis",
+    "pitch": "A laid-back, memorable .com for a cannabis brand, dispensary, lounge or media channel. Interactive landing page in progress.",
+    "price": "$420",
+    "terms": "Buy direct by email",
+    "url": null,
+    "listed": true,
+    "teaser": true,
+    "_note": "Added 2026-11-01 per Pedro; landing page in process. Set url to https://stonyzone.com once it is live with a valid certificate."
   },
   {
     "domain": "rotablesales.com",

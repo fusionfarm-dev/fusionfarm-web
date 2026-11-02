@@ -30,7 +30,7 @@ MAP_W, MAP_H = 450, 253
 OFFICES = [  # (code, x, y, label dx, label dy, anchor)
     ("SEA", 33.3, 87.5, -2.4, -3.2, "end"),
     ("MSP", 57.5, 92.6, -0.5, -4.0, "middle"),
-    ("CHI", 63.2, 97.6, 2.6, 4.6, "start"),
+    ("ORD", 63.2, 97.6, 1.6, -3.4, "start"),   # label sits up-right of the dot, clear of the NYC hub
 ]
 
 
@@ -100,7 +100,8 @@ def orbit_svg():
 # --------------------------------------------------------------------------
 def domain_card(d, head="h3"):
     price = esc(d["price"]) if d.get("price") else "Make an offer"
-    terms = f'<p class="asset__terms">{esc(d["terms"])}</p>' if d.get("terms") else ""
+    terms = (f'<p class="asset__terms">{esc(d["terms"])}</p>' if d.get("terms")
+             else '<p class="asset__terms" aria-hidden="true"></p>')   # keeps prices aligned across cards
     subj = f"/contact/?topic=domains&amp;about={esc(d['domain'])}"
     view = (f'<a class="link" href="{esc(d["url"])}" rel="noopener" target="_blank">View<span class="sr"> {esc(d["domain"])} '
             f'(opens in a new tab)</span> <span aria-hidden="true">↗</span></a>' if d.get("url")
